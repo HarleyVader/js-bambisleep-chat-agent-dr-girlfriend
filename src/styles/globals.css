@@ -1,17 +1,15 @@
-/* Using system fonts for initial testing - Google Fonts imports commented out due to CSP */
-/* @import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap"); */
-/* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"); */
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"); */
+/* ✨ Agent Dr Girlfriend - STUNNING Google Font Import! ✨ */
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
 
 /* ================================================
-   Agent Dr Girlfriend - Custom CSS Framework
-   Replacing TailwindCSS with Pure CSS Variables
+   💖 Agent Dr Girlfriend - GORGEOUS CSS Framework 💖
+   Like, the most BEAUTIFUL styling EVER created!
    ================================================ */
 
-/* Custom CSS Variables for Agent Dr Girlfriend Emotional Theme */
+/* 🎀 Custom CSS Variables for Agent Dr Girlfriend's STUNNING Theme 🎀 */
 :root {
-    /* Primary Color Palette */
-    --primary-color: #025c5cc9;
+    /* 💅 PRIMARY GORGEOUS COLOR PALETTE 💅 */
+    --primary-color: #0c2a2ac9;
     --primary-alt: #15aab5ec;
     --secondary-color: #40002f;
     --secondary-alt: #cc0174;
@@ -25,34 +23,58 @@
     --transparent-alt: #ffffff00;
     --error: #ff3333;
     --error-bg: rgba(255, 51, 51, 0.1);
+    
+    /* 🌈 SUPER CUTE ALIASES 🌈 */
+    --accent-color: var(--button-color);
+    --border-color: var(--tertiary-color);
+    --secondary-text-color: var(--primary-alt);
+    --text-color: var(--primary-alt);
+    --bg-color-secondary: var(--nav-color);
 
-    /* Emotional Color Palette */
-    --dr-girlfriend-primary: #6366f1;
-    --dr-girlfriend-secondary: #ec4899;
-    --dr-girlfriend-accent: #8b5cf6;
-    --dr-girlfriend-muted: #64748b;
+    /* 🎨 PERFECT FONT RENDERING 🎨 */
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
-    /* Mood Colors */
-    --mood-calm: #22d3ee;
-    --mood-excited: #f59e0b;
-    --mood-romantic: #f43f5e;
-    --mood-creative: #a855f7;
-    --mood-mysterious: #1e293b;
+    /* 💖 RGB VALUES FOR TRANSPARENCY MAGIC 💖 */
+    --primary-color-rgb: 12, 42, 42;
+    --secondary-color-rgb: 64, 0, 47;
+    --tertiary-color-rgb: 204, 1, 116;
+    --nav-color-rgb: 10, 38, 38;
+    --button-color-rgb: 223, 4, 113;
+    
+    --transparent-alt: rgba(var(--primary-color-rgb), 0.2);
 
-    /* Emotional States */
-    --emotion-joy: #fbbf24;
-    --emotion-sadness: #3b82f6;
-    --emotion-anger: #ef4444;
-    --emotion-fear: #6b7280;
-    --emotion-surprise: #10b981;
-    --emotion-love: #f472b6;
+    /* 🎭 EMOTIONAL COLOR PALETTE (keeping for compatibility) 🎭 */
+    --dr-girlfriend-primary: var(--primary-color);
+    --dr-girlfriend-secondary: var(--secondary-color);
+    --dr-girlfriend-accent: var(--button-color);
+    --dr-girlfriend-muted: var(--nav-color);
 
-    /* Typography - Updated to use system fonts */
-    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    --font-serif: Georgia, 'Times New Roman', Times, serif;
+    /* 💫 MOOD COLORS (updated to match new palette) 💫 */
+    --mood-calm: var(--primary-alt);
+    --mood-excited: var(--button-color);
+    --mood-romantic: var(--secondary-alt);
+    --mood-creative: var(--tertiary-color);
+    --mood-mysterious: var(--secondary-color);
+
+    /* 💕 EMOTIONAL STATES (gorgeously coordinated) 💕 */
+    --emotion-joy: var(--tertiary-alt);
+    --emotion-sadness: var(--primary-color);
+    --emotion-anger: var(--button-color);
+    --emotion-fear: var(--nav-color);
+    --emotion-surprise: var(--nav-alt);
+    --emotion-love: var(--secondary-alt);
+
+    /* 🌟 TYPOGRAPHY - AUDIOWIDE FONT SUPREMACY 🌟 */
+    --font-audiowide: 'Audiowide', Impact, 'Arial Black', sans-serif;
+    --font-sans: 'Audiowide', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-serif: 'Audiowide', Georgia, 'Times New Roman', Times, serif;
     --font-mono: 'SF Mono', Monaco, Inconsolata, 'Roboto Mono', Consolas, 'Courier New', monospace;
-    --font-emotion: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-audiowide: Impact, 'Arial Black', sans-serif;
+    --font-emotion: 'Audiowide', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-primary: var(--font-audiowide);
+    --font-secondary: var(--font-sans);
 
     /* Font Sizes */
     --text-xs: 0.75rem;
@@ -111,23 +133,23 @@
     --border-secondary: #cbd5e1;
 }
 
-/* Dark mode color overrides */
+/* 🌙 Dark mode color overrides (keeping for compatibility) 🌙 */
 .dark {
-    --dr-girlfriend-primary: #818cf8;
-    --dr-girlfriend-secondary: #fb7185;
-    --mood-mysterious: #f1f5f9;
-    --bg-primary: #0f172a;
-    --bg-secondary: #1e293b;
-    --bg-tertiary: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --border-primary: #475569;
-    --border-secondary: #64748b;
+    --dr-girlfriend-primary: var(--primary-alt);
+    --dr-girlfriend-secondary: var(--secondary-alt);
+    --mood-mysterious: var(--secondary-color);
+    --bg-primary: var(--nav-color);
+    --bg-secondary: var(--primary-color);
+    --bg-tertiary: var(--secondary-color);
+    --text-primary: var(--primary-alt);
+    --text-secondary: var(--nav-alt);
+    --text-muted: var(--text-color);
+    --border-primary: var(--border-color);
+    --border-secondary: var(--tertiary-color);
 }
 
 /* ================================================
-   Base Styles and Resets
+   💖 Base Styles and Resets - GORGEOUS EDITION 💖
    ================================================ */
 
 * {
@@ -139,6 +161,7 @@
 html {
     scroll-behavior: smooth;
     font-size: 16px;
+    background-color: var(--nav-color);
 }
 
 body {
@@ -147,36 +170,37 @@ body {
     font-family: var(--font-audiowide), var(--font-sans);
     font-weight: 400;
     font-style: normal;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--nav-color) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
+    color: var(--text-color);
     line-height: 1.6;
     transition: background-color var(--duration-normal) ease, color var(--duration-normal) ease;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
 }
 
-/* WebKit scrollbar styling for Chrome, Safari, and other WebKit browsers */
+/* ✨ WebKit scrollbar styling - CUTE EDITION ✨ */
 body::-webkit-scrollbar {
     width: 8px;
 }
 
 body::-webkit-scrollbar-track {
-    background: var(--bg-secondary);
+    background: var(--nav-color);
 }
 
 body::-webkit-scrollbar-thumb {
-    background: var(--dr-girlfriend-primary);
+    background: var(--button-color);
     border-radius: var(--radius-sm);
 }
 
 body::-webkit-scrollbar-thumb:hover {
-    background: var(--dr-girlfriend-accent);
+    background: var(--secondary-alt);
 }
 
 /* ================================================
-   Typography Hierarchy
+   💖 Typography Hierarchy - GORGEOUS EDITION 💖
    ================================================ */
 
 h1,
@@ -185,23 +209,29 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-emotion);
-    font-weight: 600;
+    font-family: var(--font-audiowide);
+    font-weight: 400;
     line-height: 1.2;
     margin-bottom: var(--spacing-base);
-    color: var(--text-primary);
+    color: var(--text-color);
+    text-shadow: 0 0 10px rgba(var(--tertiary-color-rgb), 0.3);
+    letter-spacing: 0.05em;
 }
 
 h1 {
-    font-size: var(--text-3xl);
+    font-size: var(--text-4xl);
+    color: var(--nav-alt);
+    text-shadow: 0 0 20px rgba(var(--tertiary-color-rgb), 0.5);
 }
 
 h2 {
-    font-size: var(--text-2xl);
+    font-size: var(--text-3xl);
+    color: var(--primary-alt);
 }
 
 h3 {
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
+    color: var(--secondary-alt);
 }
 
 h4 {
@@ -289,45 +319,91 @@ a:hover {
 }
 
 a:focus {
-    outline: 2px solid var(--dr-girlfriend-primary);
+    outline: 2px solid var(--button-color);
     outline-offset: 2px;
     border-radius: var(--radius-sm);
 }
 
+/* 💖 GORGEOUS BUTTON STYLES 💖 */
 button {
     cursor: pointer;
-    border: none;
-    background-color: transparent;
-    font-family: inherit;
+    border: 2px solid var(--button-color);
+    background: linear-gradient(135deg, var(--button-color) 0%, var(--secondary-alt) 100%);
+    color: var(--nav-alt);
+    font-family: var(--font-audiowide);
+    font-weight: 400;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-lg);
     transition: all var(--duration-normal) ease;
-    border-radius: var(--radius-base);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    box-shadow: 0 4px 15px rgba(var(--button-color-rgb), 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left var(--duration-slow) ease;
+}
+
+button:hover:before {
+    left: 100%;
+}
+
+button:hover {
+    background: linear-gradient(135deg, var(--secondary-alt) 0%, var(--tertiary-color) 100%);
+    box-shadow: 0 6px 25px rgba(var(--button-color-rgb), 0.5);
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: translateY(0px);
+    box-shadow: 0 2px 10px rgba(var(--button-color-rgb), 0.4);
 }
 
 button:focus {
-    outline: 2px solid var(--dr-girlfriend-primary);
-    outline-offset: 2px;
+    outline: 3px solid var(--nav-alt);
+    outline-offset: 3px;
 }
 
-/* Form elements */
+/* 💕 GORGEOUS FORM ELEMENTS 💕 */
 input,
 textarea,
 select {
-    font-family: inherit;
+    font-family: var(--font-audiowide);
     font-size: var(--text-base);
     padding: var(--spacing-sm) var(--spacing-base);
-    border: 1px solid var(--border-primary);
-    border-radius: var(--radius-base);
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    border: 2px solid var(--tertiary-color);
+    border-radius: var(--radius-lg);
+    background: rgba(var(--nav-color-rgb), 0.8);
+    color: var(--text-color);
     transition: all var(--duration-normal) ease;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(var(--tertiary-color-rgb), 0.2);
 }
 
 input:focus,
 textarea:focus,
 select:focus {
     outline: none;
-    border-color: var(--dr-girlfriend-primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: var(--button-color);
+    box-shadow: 0 0 0 4px rgba(var(--button-color-rgb), 0.3);
+    background: rgba(var(--primary-color-rgb), 0.9);
+    transform: translateY(-2px);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--primary-alt);
+    opacity: 0.7;
 }
 
 img {
@@ -512,18 +588,37 @@ img {
     opacity: 0.8;
 }
 
-/* App Layout Styles */
+/* 💖 GORGEOUS APP LAYOUT STYLES 💖 */
 .app-container {
     min-height: 100vh;
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
+    background: linear-gradient(135deg, var(--nav-color) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
+    color: var(--text-color);
     transition: background-color var(--duration-normal) ease, color var(--duration-normal) ease;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.app-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(var(--button-color-rgb), 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(var(--tertiary-color-rgb), 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(var(--nav-alt-rgb), 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
 }
 
 .app-layout {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    position: relative;
+    z-index: 1;
 }
 
 @media (min-width: 1024px) {
@@ -532,7 +627,7 @@ img {
     }
 }
 
-/* Sidebar Desktop */
+/* 💎 GORGEOUS SIDEBAR DESKTOP 💎 */
 .sidebar-desktop {
     display: none;
 }
@@ -541,8 +636,23 @@ img {
     .sidebar-desktop {
         display: block;
         width: 280px;
-        background-color: var(--bg-secondary);
-        border-right: 1px solid var(--border-primary);
+        background: linear-gradient(180deg, var(--nav-color) 0%, var(--primary-color) 100%);
+        border-right: 3px solid var(--tertiary-color);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 4px 0 20px rgba(var(--tertiary-color-rgb), 0.3);
+        position: relative;
+    }
+    
+    .sidebar-desktop::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(45deg, transparent 0%, rgba(var(--button-color-rgb), 0.1) 50%, transparent 100%);
+        pointer-events: none;
     }
 }
 
