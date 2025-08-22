@@ -1,0 +1,67 @@
+:root {
+    --primary-color: #4A90E2; /* Main theme color */
+    --secondary-color: #D9E6F2; /* Secondary theme color */
+    --accent-color: #FF6F61; /* Accent color for highlights */
+    --background-color: #FFFFFF; /* Background color */
+    --text-color: #333333; /* Default text color */
+    --header-background: #F7F9FC; /* Header background color */
+    --sidebar-background: #F1F3F5; /* Sidebar background color */
+    --border-color: #E0E0E0; /* Border color for components */
+}
+
+.light-theme {
+    --primary-color: #4A90E2;
+    --secondary-color: #D9E6F2;
+    --accent-color: #FF6F61;
+    --background-color: #FFFFFF;
+    --text-color: #333333;
+}
+
+.dark-theme {
+    --primary-color: #1E1E1E;
+    --secondary-color: #2C2C2C;
+    --accent-color: #FF6F61;
+    --background-color: #121212;
+    --text-color: #FFFFFF;
+}
+
+.button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: var(--accent-color);
+}
+
+.header {
+    background-color: var(--header-background);
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar {
+    background-color: var(--sidebar-background);
+    padding: 15px;
+    border-right: 1px solid var(--border-color);
+}
+
+.message-bubble {
+    background-color: var(--secondary-color);
+    border-radius: 20px;
+    padding: 10px 15px;
+    margin: 5px 0;
+    max-width: 70%;
+}
+
+.mood-indicator {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+    background-color: var(--primary-color);
+}

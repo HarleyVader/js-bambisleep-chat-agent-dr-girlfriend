@@ -1,0 +1,77 @@
+{
+  "name": "bambisleep-chat-agent",
+  "version": "1.0.0",
+  "description": "A modular, emotionally intelligent, and privacy-first AI companion platform inspired by Agent Dr Girlfriend.",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production",
+    "preview": "npx http-server dist -p 3001 -o",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md}\"",
+    "type-check": "tsc --noEmit",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "keywords": [
+    "AI",
+    "chat",
+    "emotional intelligence",
+    "privacy",
+    "modular",
+    "Agent Dr Girlfriend",
+    "BambiSleep",
+    "React"
+  ],
+  "author": "BambiSleep",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.0",
+    "classnames": "^2.3.2",
+    "localforage": "^1.10.0",
+    "lodash-es": "^4.17.21",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.0",
+    "@babel/plugin-transform-class-properties": "^7.22.0",
+    "@babel/preset-env": "^7.22.0",
+    "@babel/preset-react": "^7.22.0",
+    "@types/lodash-es": "^4.17.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/uuid": "^9.0.0",
+    "autoprefixer": "^10.4.0",
+    "babel-loader": "^9.1.0",
+    "core-js": "^3.31.0",
+    "css-loader": "^6.8.0",
+    "css-minimizer-webpack-plugin": "^5.0.0",
+    "cssnano": "^6.0.0",
+    "dotenv": "^16.3.0",
+    "eslint": "^8.45.0",
+    "html-webpack-plugin": "^5.5.0",
+    "http-server": "^14.1.0",
+    "mini-css-extract-plugin": "^2.7.0",
+    "postcss": "^8.4.0",
+    "postcss-loader": "^7.3.0",
+    "prettier": "^3.0.0",
+    "style-loader": "^3.3.0",
+    "terser-webpack-plugin": "^5.3.0",
+    "typescript": "^5.0.0",
+    "webpack": "^5.88.0",
+    "webpack-cli": "^5.1.0",
+    "webpack-dev-server": "^5.2.2"
+  },
+  "browserslist": [
+    ">0.25%",
+    "not dead",
+    "not ie 11"
+  ],
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

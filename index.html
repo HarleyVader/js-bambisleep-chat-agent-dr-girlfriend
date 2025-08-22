@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BambiSleep's Agent Dr Girlfriend - An emotionally intelligent AI companion for creative professionals, emotional support, and immersive interaction.">
+    <meta name="keywords" content="AI companion, emotional intelligence, creative assistant, Agent Dr Girlfriend, BambiSleep">
+    <meta name="author" content="BambiSleep">
+
+    <!-- Security & Privacy Headers - RELAXED for safe home environment -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: http: https: ws: wss:; script-src 'self' 'unsafe-inline' 'unsafe-eval' http: https:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' https: http: data:; img-src 'self' data: blob: https: http:; connect-src *; media-src 'self' data: blob: https: http:; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="BambiSleep's Agent Dr Girlfriend">
+    <meta property="og:description" content="Emotionally intelligent AI companion for creative professionals">
+    <meta property="og:type" content="website">
+
+    <!-- Emotional UX - Theme colors for mood adaptation -->
+    <meta name="theme-color" content="#6366f1" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#1e293b" media="(prefers-color-scheme: dark)">
+
+    <title>BambiSleep's Agent Dr Girlfriend - Emotional AI Companion</title>
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Webpack will inject CSS and JS automatically -->
+
+    <!-- Favicon and app icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body class="app-container">
+    <!-- Skip to main content for accessibility -->
+    <a href="#main-content" class="skip-link">
+        Skip to main content
+    </a>
+
+    <header role="banner" class="header-banner">
+        <nav aria-label="Main navigation" class="nav-container">
+            <a href="#main-content" class="brand-link" tabindex="0">Agent Dr Girlfriend</a>
+            <ul class="nav-menu" role="menubar">
+                <li role="none"><a role="menuitem" href="#chat" class="nav-link">Chat</a></li>
+                <li role="none"><a role="menuitem" href="#journal" class="nav-link">Journal</a></li>
+                <li role="none"><a role="menuitem" href="#persona" class="nav-link">Persona</a></li>
+            </ul>
+        </nav>
+    </header>
+    <!-- React app will mount here -->
+    <div id="app"></div>
+    <footer role="contentinfo" class="footer-section">
+        <span>&copy; 2025 BambiSleep. Agent Dr Girlfriend &mdash; Emotional AI Companion.</span>
+    </footer>
+    <!-- Loading state with accessible feedback -->
+    <div id="loading-screen"
+         class="loading-screen"
+         aria-live="polite"
+         aria-label="Loading BambiSleep Agent Dr Girlfriend">
+        <div class="loading-content">
+            <div class="loading-animation">
+                <div class="loading-avatar" aria-hidden="true"></div>
+            </div>
+            <h1 class="loading-title">Agent Dr Girlfriend</h1>
+            <p class="loading-subtitle">Initializing emotional intelligence...</p>
+        </div>
+    </div>
+
+    <!-- Webpack will automatically inject bundled scripts here -->
+
+    <!-- Progressive enhancement - Service worker for offline support -->
+    <script>
+        // Register service worker for offline functionality
+        /* Disabled until sw.js is created
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .catch(err => console.log('SW registration failed'));
+            });
+        }
+        */
+
+        // Emotional UX - Hide loading screen when app loads
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    loadingScreen.style.transition = 'opacity 0.5s ease-out';
+                    setTimeout(() => loadingScreen.remove(), 500);
+                }
+            }, 1500);
+        });
+    </script>
+
+    <!-- Accessibility: Screen reader announcements -->
+    <div id="sr-announcements"
+         class="sr-only"
+         aria-live="polite"
+         aria-atomic="true">
+    </div>
+</body>
+</html>
