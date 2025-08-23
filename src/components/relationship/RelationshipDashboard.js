@@ -1,9 +1,9 @@
 // RelationshipDashboard.js - Emotional connection tracking with Agent Dr Girlfriend
 // Following copilot-instructions.md: Relationship features and memory tracking
 
-import React, { useState, useEffect } from 'react';
-import { getMemory, setMemory } from '../../services/memoryService.js';
+import React, { useEffect, useState } from 'react';
 import { getEmotionalTrends, trackEmotionalPattern } from '../../services/emotionalIntelligence.js';
+import { getMemory, setMemory } from '../../services/memoryService.js';
 
 const RelationshipDashboard = () => {
     const [relationshipData, setRelationshipData] = useState(null);
@@ -18,7 +18,17 @@ const RelationshipDashboard = () => {
             try {
                 setIsLoading(true);
 
-                // Load various data sources
+                // Load various data sources with error handling for each
+                const loadData = async (key, defaultValue = null) => {
+                    try {
+                        const result = await getMemory(key);
+                        return result || defaultValue;
+                    } catch (error) {
+                        console.warn(`Failed to load ${key}:`, error);
+                        return defaultValue;
+                    }
+                };
+
                 const [
                     userContext,
                     emotionalHistory,
@@ -28,13 +38,13 @@ const RelationshipDashboard = () => {
                     creativeProjects,
                     voiceInteractions
                 ] = await Promise.all([
-                    getMemory('user_context') || {},
-                    getMemory('emotional_history') || [],
-                    getMemory('recent_messages') || [],
-                    getMemory('relationship_milestones') || [],
-                    getMemory('journal_entries') || [],
-                    getMemory('creative_projects') || [],
-                    getMemory('voice_interactions') || []
+                    loadData('user_context', {}),
+                    loadData('emotional_history', []),
+                    loadData('recent_messages', []),
+                    loadData('relationship_milestones', []),
+                    loadData('journal_entries', []),
+                    loadData('creative_projects', []),
+                    loadData('voice_interactions', [])
                 ]);
 
                 // Calculate relationship metrics
@@ -51,7 +61,23 @@ const RelationshipDashboard = () => {
                 const convStats = generateConversationStats(conversationHistory, voiceInteractions);
 
                 // Get emotional trends
-                const trends = await getEmotionalTrends();
+                let trends;
+                try {
+                    trends = await getEmotionalTrends();
+                } catch (error) {
+                    console.warn('Failed to load emotional trends:', error);
+                    trends = {
+                        totalEntries: 0,
+                        averageIntensity: 0,
+                        dominantEmotion: 'neutral',
+                        trends: {},
+                        dominantEmotions: [],
+                        emotionalStability: 1,
+                        emotionVariety: 0,
+                        dailyTrends: [],
+                        recommendations: []
+                    };
+                }
 
                 setRelationshipData(relationshipMetrics);
                 setConversationStats(convStats);
@@ -60,6 +86,38 @@ const RelationshipDashboard = () => {
 
             } catch (error) {
                 console.error('Error loading relationship data:', error);
+                // Set default values in case of complete failure
+                setRelationshipData({
+                    daysTogether: 0,
+                    totalInteractions: 0,
+                    emotionalDepth: 0,
+                    intimacyScore: 0,
+                    creativityScore: 0,
+                    growthTrend: 'building',
+                    relationshipLevel: 'Getting Started',
+                    currentMood: 'neutral',
+                    preferredMode: 'GIRLFRIEND'
+                });
+                setConversationStats({
+                    totalMessages: 0,
+                    totalVoiceMessages: 0,
+                    totalWords: 0,
+                    favoriteTopics: [],
+                    mostActiveDay: 'No conversations yet',
+                    averageResponseTime: '< 1 minute'
+                });
+                setEmotionalTrends({
+                    totalEntries: 0,
+                    averageIntensity: 0,
+                    dominantEmotion: 'neutral',
+                    trends: {},
+                    dominantEmotions: [],
+                    emotionalStability: 1,
+                    emotionVariety: 0,
+                    dailyTrends: [],
+                    recommendations: []
+                });
+                setMilestones([]);
             } finally {
                 setIsLoading(false);
             }
@@ -71,23 +129,31 @@ const RelationshipDashboard = () => {
     const calculateRelationshipMetrics = (data) => {
         const { userContext, emotionalHistory, conversationHistory, journalEntries, creativeProjects, voiceInteractions } = data;
 
-        const firstInteraction = userContext.first_interaction || new Date().toISOString();
+        // Ensure all data is valid with fallbacks
+        const safeUserContext = userContext || {};
+        const safeEmotionalHistory = Array.isArray(emotionalHistory) ? emotionalHistory : [];
+        const safeConversationHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
+        const safeJournalEntries = Array.isArray(journalEntries) ? journalEntries : [];
+        const safeCreativeProjects = Array.isArray(creativeProjects) ? creativeProjects : [];
+        const safeVoiceInteractions = Array.isArray(voiceInteractions) ? voiceInteractions : [];
+
+        const firstInteraction = safeUserContext.first_interaction || new Date().toISOString();
         const daysTogether = Math.floor((new Date() - new Date(firstInteraction)) / (1000 * 60 * 60 * 24));
 
-        const totalInteractions = conversationHistory.length + journalEntries.length + creativeProjects.length + voiceInteractions.length;
+        const totalInteractions = safeConversationHistory.length + safeJournalEntries.length + safeCreativeProjects.length + safeVoiceInteractions.length;
 
         // Calculate emotional depth score
-        const uniqueEmotions = new Set(emotionalHistory.map(e => e.emotion)).size;
+        const uniqueEmotions = new Set(safeEmotionalHistory.map(e => e.emotion)).size;
         const emotionalDepth = Math.min(uniqueEmotions * 10, 100);
 
         // Calculate intimacy level based on conversation patterns
-        const intimacyScore = calculateIntimacyScore(conversationHistory, journalEntries);
+        const intimacyScore = calculateIntimacyScore(safeConversationHistory, safeJournalEntries);
 
         // Calculate creativity score
-        const creativityScore = Math.min(creativeProjects.length * 5, 100);
+        const creativityScore = Math.min(safeCreativeProjects.length * 5, 100);
 
         // Relationship growth trajectory
-        const growthTrend = calculateGrowthTrend(emotionalHistory);
+        const growthTrend = calculateGrowthTrend(safeEmotionalHistory);
 
         return {
             daysTogether,
@@ -97,17 +163,21 @@ const RelationshipDashboard = () => {
             creativityScore,
             growthTrend,
             relationshipLevel: determineRelationshipLevel(daysTogether, totalInteractions, intimacyScore),
-            currentMood: userContext.mood || 'neutral',
-            preferredMode: userContext.preferred_mode || 'GIRLFRIEND'
+            currentMood: safeUserContext.mood || 'neutral',
+            preferredMode: safeUserContext.preferred_mode || 'GIRLFRIEND'
         };
     };
 
     const calculateIntimacyScore = (conversations, journals) => {
+        // Ensure arrays are valid
+        const safeConversations = Array.isArray(conversations) ? conversations : [];
+        const safeJournals = Array.isArray(journals) ? journals : [];
+
         // Count personal sharing indicators
         const personalWords = ['feel', 'love', 'miss', 'dream', 'hope', 'fear', 'want', 'need', 'remember'];
         let intimacyScore = 0;
 
-        const allText = [...conversations, ...journals].map(item => item.text || '').join(' ').toLowerCase();
+        const allText = [...safeConversations, ...safeJournals].map(item => item.text || '').join(' ').toLowerCase();
 
         personalWords.forEach(word => {
             const matches = allText.split(word).length - 1;
@@ -118,10 +188,13 @@ const RelationshipDashboard = () => {
     };
 
     const calculateGrowthTrend = (emotionalHistory) => {
-        if (emotionalHistory.length < 10) return 'building';
+        // Ensure emotionalHistory is a valid array
+        const safeEmotionalHistory = Array.isArray(emotionalHistory) ? emotionalHistory : [];
 
-        const recent = emotionalHistory.slice(-10);
-        const older = emotionalHistory.slice(-20, -10);
+        if (safeEmotionalHistory.length < 10) return 'building';
+
+        const recent = safeEmotionalHistory.slice(-10);
+        const older = safeEmotionalHistory.slice(-20, -10);
 
         const recentPositive = recent.filter(e => ['joy', 'love', 'excitement', 'creative'].includes(e.emotion)).length;
         const olderPositive = older.filter(e => ['joy', 'love', 'excitement', 'creative'].includes(e.emotion)).length;
@@ -140,13 +213,17 @@ const RelationshipDashboard = () => {
     };
 
     const generateConversationStats = (conversations, voiceInteractions) => {
-        const totalMessages = conversations.length;
-        const totalVoiceMessages = voiceInteractions.length;
-        const totalWords = conversations.reduce((sum, msg) => sum + (msg.text?.split(' ').length || 0), 0);
+        // Ensure arrays are valid
+        const safeConversations = Array.isArray(conversations) ? conversations : [];
+        const safeVoiceInteractions = Array.isArray(voiceInteractions) ? voiceInteractions : [];
 
-        const favoriteTopics = extractFavoriteTopics(conversations);
-        const mostActiveDay = findMostActiveDay(conversations);
-        const averageResponseTime = calculateAverageResponseTime(conversations);
+        const totalMessages = safeConversations.length;
+        const totalVoiceMessages = safeVoiceInteractions.length;
+        const totalWords = safeConversations.reduce((sum, msg) => sum + (msg.text?.split(' ').length || 0), 0);
+
+        const favoriteTopics = extractFavoriteTopics(safeConversations);
+        const mostActiveDay = findMostActiveDay(safeConversations);
+        const averageResponseTime = calculateAverageResponseTime(safeConversations);
 
         return {
             totalMessages,
@@ -159,6 +236,9 @@ const RelationshipDashboard = () => {
     };
 
     const extractFavoriteTopics = (conversations) => {
+        // Ensure conversations is a valid array
+        const safeConversations = Array.isArray(conversations) ? conversations : [];
+
         // Simple topic extraction based on common words
         const topicWords = {
             'creative': ['create', 'art', 'write', 'story', 'creative', 'imagine'],
@@ -169,7 +249,7 @@ const RelationshipDashboard = () => {
         };
 
         const topicCounts = {};
-        const allText = conversations.map(msg => msg.text || '').join(' ').toLowerCase();
+        const allText = safeConversations.map(msg => msg.text || '').join(' ').toLowerCase();
 
         Object.keys(topicWords).forEach(topic => {
             topicCounts[topic] = 0;
@@ -185,13 +265,21 @@ const RelationshipDashboard = () => {
     };
 
     const findMostActiveDay = (conversations) => {
+        // Ensure conversations is a valid array
+        const safeConversations = Array.isArray(conversations) ? conversations : [];
+
+        if (safeConversations.length === 0) return 'No conversations yet';
+
         const dayCount = {};
-        conversations.forEach(msg => {
-            const day = new Date(msg.timestamp).toLocaleDateString('en-US', { weekday: 'long' });
-            dayCount[day] = (dayCount[day] || 0) + 1;
+        safeConversations.forEach(msg => {
+            if (msg.timestamp) {
+                const day = new Date(msg.timestamp).toLocaleDateString('en-US', { weekday: 'long' });
+                dayCount[day] = (dayCount[day] || 0) + 1;
+            }
         });
 
-        return Object.entries(dayCount).sort(([, a], [, b]) => b - a)[0]?.[0] || 'Unknown';
+        const mostActive = Object.entries(dayCount).sort(([, a], [, b]) => b - a)[0];
+        return mostActive ? mostActive[0] : 'Unknown';
     };
 
     const calculateAverageResponseTime = (conversations) => {
@@ -246,6 +334,18 @@ const RelationshipDashboard = () => {
                 <div className="loading-container">
                     <div className="loading-animation">💖</div>
                     <p>Analyzing our beautiful connection...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Ensure all data is available before rendering
+    if (!relationshipData) {
+        return (
+            <div className="relationship-dashboard error">
+                <div className="error-container">
+                    <div className="error-icon">💔</div>
+                    <p>Unable to load relationship data. Please try refreshing.</p>
                 </div>
             </div>
         );

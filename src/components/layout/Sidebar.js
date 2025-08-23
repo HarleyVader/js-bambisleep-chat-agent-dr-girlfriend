@@ -1,72 +1,97 @@
-// Sidebar.js - Enhanced sidebar component for desktop view
-// Following copilot-instructions.md: Emotional UX design with Agent Dr Girlfriend personality
+// Sidebar.js - Enhanced sidebar with Agent Dr Girlfriend stats and telemetry
+// Following copilot-instructions.md: Emotional UX design with comprehensive stats
 
 import React, { useState, useEffect } from 'react';
 import { getMemory } from '../../services/memoryService.js';
 
 const Sidebar = ({ currentView, setCurrentView }) => {
     const [userContext, setUserContext] = useState(null);
-    const [currentMood, setCurrentMood] = useState('neutral');
+    const [relationshipStats, setRelationshipStats] = useState(null);
+    const [emotionalTrends, setEmotionalTrends] = useState(null);
+    const [systemStats, setSystemStats] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
 
-    // Enhanced menu items matching the full feature set
-    const menuItems = [
-        {
-            id: 'chat',
-            label: 'Chat',
-            icon: '💬',
-            description: 'Talk with Agent Dr Girlfriend',
-            category: 'main'
-        },
-        {
-            id: 'journal',
-            label: 'Dream Journal',
-            icon: '📝',
-            description: 'Write your thoughts and dreams',
-            category: 'main'
-        },
-        {
-            id: 'creative',
-            label: 'Creative Studio',
-            icon: '🎨',
-            description: 'Collaborate on creative projects',
-            category: 'creative'
-        },
-        {
-            id: 'relationship',
-            label: 'Our Journey',
-            icon: '💖',
-            description: 'Track relationship progress',
-            category: 'insights'
-        },
-        {
-            id: 'persona',
-            label: 'Personality Mode',
-            icon: '🎭',
-            description: 'Choose interaction style',
-            category: 'settings'
-        }
-    ];
-
-    // Load user context for personalization
+    // Load comprehensive data for sidebar
     useEffect(() => {
-        const loadUserContext = async () => {
+        const loadSidebarData = async () => {
             try {
-                const context = await getMemory('user_context');
-                if (context) {
-                    setUserContext(context);
-                    setCurrentMood(context.mood || 'neutral');
-                }
+                setIsLoading(true);
+
+                const [
+                    rawContext,
+                    rawEmotionalHistory,
+                    rawRecentMessages,
+                    rawRelationshipMilestones,
+                    rawJournalEntries,
+                    rawCreativeProjects
+                ] = await Promise.all([
+                    getMemory('user_context'),
+                    getMemory('emotional_history'),
+                    getMemory('recent_messages'),
+                    getMemory('relationship_milestones'),
+                    getMemory('journal_entries'),
+                    getMemory('creative_projects')
+                ]);
+
+                // Apply null checks and defaults after Promise resolution
+                const context = rawContext || {};
+                const emotional_history = rawEmotionalHistory || [];
+                const recent_messages = rawRecentMessages || [];
+                const relationship_milestones = rawRelationshipMilestones || [];
+                const journal_entries = rawJournalEntries || [];
+                const creative_projects = rawCreativeProjects || [];
+
+                setUserContext(context);
+
+                // Calculate relationship stats with proper null checks
+                const firstInteraction = context?.first_interaction || new Date().toISOString();
+                const daysTogether = Math.floor((new Date() - new Date(firstInteraction)) / (1000 * 60 * 60 * 24));
+                const totalInteractions = recent_messages.length + journal_entries.length + creative_projects.length;
+
+                setRelationshipStats({
+                    daysTogether,
+                    totalInteractions,
+                    totalMessages: recent_messages.length,
+                    journalEntries: journal_entries.length,
+                    creativeProjects: creative_projects.length,
+                    milestones: relationship_milestones.length,
+                    relationshipLevel: context?.relationship_level || 'getting_to_know'
+                });
+
+                // Calculate emotional trends
+                const recentEmotions = emotional_history.slice(-10);
+                const emotionCounts = recentEmotions.reduce((acc, item) => {
+                    acc[item.emotion] = (acc[item.emotion] || 0) + 1;
+                    return acc;
+                }, {});
+
+                const dominantEmotion = Object.entries(emotionCounts)
+                    .sort(([, a], [, b]) => b - a)[0]?.[0] || 'neutral';
+
+                setEmotionalTrends({
+                    dominantEmotion,
+                    totalEmotionalEntries: emotional_history.length,
+                    recentEmotions: recentEmotions.length,
+                    emotionVariety: Object.keys(emotionCounts).length
+                });
+
+                // System stats
+                setSystemStats({
+                    currentMode: context?.preferred_mode || 'GIRLFRIEND',
+                    lastActive: new Date().toISOString(),
+                    storageHealth: 'optimal',
+                    uptime: '24/7'
+                });
+
             } catch (error) {
-                console.error('Error loading user context:', error);
+                console.error('Error loading sidebar data:', error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
-        loadUserContext();
-    }, []);
-
-    const getMenuItemsByCategory = (category) => {
-        return menuItems.filter(item => item.category === category);
-    };
+        loadSidebarData();
+    }, [currentView]); // Refresh when view changes
 
     const getPersonalizedGreeting = () => {
         const hour = new Date().getHours();
@@ -85,156 +110,185 @@ const Sidebar = ({ currentView, setCurrentView }) => {
         return `Good ${timeOfDay}!`;
     };
 
-    const getStatusMessage = () => {
-        if (userContext?.relationship_level) {
-            const levels = {
-                'getting_to_know': 'Getting to know each other',
-                'building_connection': 'Building our connection',
-                'deep_bond': 'Deep emotional bond',
-                'soulmate_connection': 'Soulmate connection'
-            };
-            return levels[userContext.relationship_level] || 'Growing together';
-        }
-        return 'Ready for conversation';
+    const getRelationshipLevelDisplay = (level) => {
+        const levels = {
+            'getting_to_know': { emoji: '🌱', text: 'Getting to Know' },
+            'building_connection': { emoji: '🌿', text: 'Building Connection' },
+            'deep_bond': { emoji: '🌸', text: 'Deep Bond' },
+            'soulmate_connection': { emoji: '🌹', text: 'Soulmate Level' }
+        };
+        return levels[level] || { emoji: '💫', text: 'Growing Together' };
     };
 
+    const getEmotionEmoji = (emotion) => {
+        const emojis = {
+            'joy': '😊', 'love': '💕', 'excitement': '🤩', 'creative': '✨',
+            'sad': '😢', 'neutral': '😐', 'angry': '😠', 'fear': '😨',
+            'surprise': '😲', 'calm': '😌', 'motivated': '💪', 'curious': '🤔'
+        };
+        return emojis[emotion] || '💫';
+    };
+
+    if (isLoading) {
+        return (
+            <aside className="sidebar loading">
+                <div className="loading-container">
+                    <div className="loading-spinner">💖</div>
+                    <p>Loading Agent Dr Girlfriend...</p>
+                </div>
+            </aside>
+        );
+    }
+
     return (
-        <aside className="sidebar" role="complementary" aria-label="Navigation sidebar">
-            {/* Sidebar Header */}
-            <div className="sidebar-header">
-                <div className="sidebar-brand" onClick={() => setCurrentView('chat')}>
-                    <div className="sidebar-avatar">
-                        <span role="img" aria-label="Agent Dr Girlfriend">👩‍⚕️</span>
-                        <div className={`mood-indicator mood-${currentMood}`}></div>
+        <aside className="sidebar" role="complementary" aria-label="Agent Dr Girlfriend Stats and Navigation">
+
+            {/* Agent Dr Girlfriend Profile Section */}
+            <div className="sidebar-profile">
+                <div className="profile-header">
+                    <div className="profile-avatar">
+                        <span className="avatar-icon">👩‍⚕️</span>
+                        <div className="status-indicator online"></div>
                     </div>
-                    <div className="sidebar-info">
-                        <h2 className="sidebar-title">Agent Dr Girlfriend</h2>
-                        <p className="sidebar-subtitle">AI Companion from 2030</p>
-                        <div className="sidebar-status">
-                            <p className="greeting">{getPersonalizedGreeting()}</p>
-                            <p className="status-message">{getStatusMessage()}</p>
+                    <div className="profile-info">
+                        <h2 className="profile-name">Agent Dr Girlfriend</h2>
+                        <p className="profile-subtitle">AI Companion from 2030</p>
+                        <p className="profile-greeting">{getPersonalizedGreeting()}</p>
+                    </div>
+                </div>
+            </div>
+
+            {/* Relationship Statistics */}
+            <div className="sidebar-section">
+                <h3 className="section-title">📊 Our Relationship</h3>
+                <div className="stats-grid">
+                    <div className="stat-card">
+                        <div className="stat-icon">📅</div>
+                        <div className="stat-content">
+                            <div className="stat-value">{relationshipStats?.daysTogether || 0}</div>
+                            <div className="stat-label">Days Together</div>
+                        </div>
+                    </div>
+
+                    <div className="stat-card">
+                        <div className="stat-icon">💬</div>
+                        <div className="stat-content">
+                            <div className="stat-value">{relationshipStats?.totalMessages || 0}</div>
+                            <div className="stat-label">Messages</div>
+                        </div>
+                    </div>
+
+                    <div className="stat-card">
+                        <div className="stat-icon">📝</div>
+                        <div className="stat-content">
+                            <div className="stat-value">{relationshipStats?.journalEntries || 0}</div>
+                            <div className="stat-label">Journal Entries</div>
+                        </div>
+                    </div>
+
+                    <div className="stat-card">
+                        <div className="stat-icon">🎨</div>
+                        <div className="stat-content">
+                            <div className="stat-value">{relationshipStats?.creativeProjects || 0}</div>
+                            <div className="stat-label">Creative Works</div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Relationship Level */}
+                <div className="relationship-level">
+                    {(() => {
+                        const level = getRelationshipLevelDisplay(relationshipStats?.relationshipLevel);
+                        return (
+                            <div className="level-display">
+                                <span className="level-emoji">{level.emoji}</span>
+                                <span className="level-text">{level.text}</span>
+                            </div>
+                        );
+                    })()}
+                </div>
+            </div>
+
+            {/* Emotional Intelligence Stats */}
+            <div className="sidebar-section">
+                <h3 className="section-title">🧠 Emotional Intelligence</h3>
+                <div className="emotion-stats">
+                    <div className="current-emotion">
+                        <span className="emotion-emoji">
+                            {getEmotionEmoji(emotionalTrends?.dominantEmotion)}
+                        </span>
+                        <div className="emotion-info">
+                            <div className="emotion-label">Current Vibe</div>
+                            <div className="emotion-value">
+                                {emotionalTrends?.dominantEmotion || 'neutral'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="emotion-metrics">
+                        <div className="metric">
+                            <span className="metric-label">Emotional Range:</span>
+                            <span className="metric-value">{emotionalTrends?.emotionVariety || 0}</span>
+                        </div>
+                        <div className="metric">
+                            <span className="metric-label">Total Emotions:</span>
+                            <span className="metric-value">{emotionalTrends?.totalEmotionalEntries || 0}</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Main Navigation */}
-            <nav className="sidebar-nav" aria-label="Main navigation">
-
-                {/* Primary Features */}
-                <div className="nav-section">
-                    <h3 className="nav-section-title">Conversations</h3>
-                    <ul className="nav-list">
-                        {getMenuItemsByCategory('main').map((item) => (
-                            <li key={item.id}>
-                                <button
-                                    onClick={() => setCurrentView(item.id)}
-                                    className={`nav-item ${currentView === item.id ? 'active' : ''}`}
-                                    aria-pressed={currentView === item.id}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <div className="nav-content">
-                                        <div className="nav-label">{item.label}</div>
-                                        <div className="nav-description">{item.description}</div>
-                                    </div>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+            {/* System Status */}
+            <div className="sidebar-section">
+                <h3 className="section-title">⚙️ System Status</h3>
+                <div className="system-stats">
+                    <div className="system-item">
+                        <span className="system-label">Mode:</span>
+                        <span className="system-value">{systemStats?.currentMode || 'GIRLFRIEND'}</span>
+                    </div>
+                    <div className="system-item">
+                        <span className="system-label">Uptime:</span>
+                        <span className="system-value">{systemStats?.uptime || '24/7'}</span>
+                    </div>
+                    <div className="system-item">
+                        <span className="system-label">Storage:</span>
+                        <span className="system-value health-optimal">{systemStats?.storageHealth || 'optimal'}</span>
+                    </div>
+                    <div className="system-item">
+                        <span className="system-label">Version:</span>
+                        <span className="system-value">BambiSleep v1.0.0</span>
+                    </div>
                 </div>
+            </div>
 
-                {/* Creative Features */}
-                <div className="nav-section">
-                    <h3 className="nav-section-title">Creative</h3>
-                    <ul className="nav-list">
-                        {getMenuItemsByCategory('creative').map((item) => (
-                            <li key={item.id}>
-                                <button
-                                    onClick={() => setCurrentView(item.id)}
-                                    className={`nav-item ${currentView === item.id ? 'active' : ''}`}
-                                    aria-pressed={currentView === item.id}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <div className="nav-content">
-                                        <div className="nav-label">{item.label}</div>
-                                        <div className="nav-description">{item.description}</div>
-                                    </div>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
+            {/* Quick Actions */}
+            <div className="sidebar-section">
+                <h3 className="section-title">⚡ Quick Actions</h3>
+                <div className="quick-actions">
+                    <button
+                        className="quick-action-btn"
+                        onClick={() => setCurrentView('relationship')}
+                        title="View detailed relationship analytics"
+                    >
+                        <span className="btn-icon">📈</span>
+                        <span className="btn-text">View Analytics</span>
+                    </button>
+                    <button
+                        className="quick-action-btn"
+                        onClick={() => setCurrentView('persona')}
+                        title="Change personality mode"
+                    >
+                        <span className="btn-icon">🎭</span>
+                        <span className="btn-text">Switch Mode</span>
+                    </button>
                 </div>
+            </div>
 
-                {/* Insights & Relationship */}
-                <div className="nav-section">
-                    <h3 className="nav-section-title">Insights</h3>
-                    <ul className="nav-list">
-                        {getMenuItemsByCategory('insights').map((item) => (
-                            <li key={item.id}>
-                                <button
-                                    onClick={() => setCurrentView(item.id)}
-                                    className={`nav-item ${currentView === item.id ? 'active' : ''}`}
-                                    aria-pressed={currentView === item.id}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <div className="nav-content">
-                                        <div className="nav-label">{item.label}</div>
-                                        <div className="nav-description">{item.description}</div>
-                                    </div>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-
-                {/* Settings */}
-                <div className="nav-section">
-                    <h3 className="nav-section-title">Settings</h3>
-                    <ul className="nav-list">
-                        {getMenuItemsByCategory('settings').map((item) => (
-                            <li key={item.id}>
-                                <button
-                                    onClick={() => setCurrentView(item.id)}
-                                    className={`nav-item ${currentView === item.id ? 'active' : ''}`}
-                                    aria-pressed={currentView === item.id}
-                                >
-                                    <span className="nav-icon">{item.icon}</span>
-                                    <div className="nav-content">
-                                        <div className="nav-label">{item.label}</div>
-                                        <div className="nav-description">{item.description}</div>
-                                    </div>
-                                </button>
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            </nav>
-
-            {/* Sidebar Footer */}
+            {/* Footer */}
             <div className="sidebar-footer">
-                <div className="footer-stats">
-                    {userContext && (
-                        <>
-                            <div className="stat-item">
-                                <span className="stat-label">Days together:</span>
-                                <span className="stat-value">
-                                    {userContext.first_interaction ?
-                                        Math.floor((new Date() - new Date(userContext.first_interaction)) / (1000 * 60 * 60 * 24)) :
-                                        '0'
-                                    }
-                                </span>
-                            </div>
-                            <div className="stat-item">
-                                <span className="stat-label">Current mode:</span>
-                                <span className="stat-value">{userContext.preferred_mode || 'Girlfriend'}</span>
-                            </div>
-                        </>
-                    )}
-                </div>
-
-                <div className="footer-info">
-                    <p className="version-info">BambiSleep v1.0.0</p>
-                    <p className="tagline">Emotional AI Companion</p>
+                <div className="footer-text">
+                    <p className="tagline">🤖 Emotional AI Companion</p>
+                    <p className="copyright">© 2030 Future Tech</p>
                 </div>
             </div>
         </aside>

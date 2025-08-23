@@ -1,6 +1,9 @@
 # 🧠 Agent Dr Girlfriend - Git Ignore Configuration
 # Protecting sensitive data and build artifacts
 
+# dist
+dist/
+
 # Environment Variables & API Keys
 .env
 .env.local

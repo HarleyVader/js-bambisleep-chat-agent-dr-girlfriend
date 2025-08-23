@@ -88,7 +88,8 @@ export const processMessage = async (userMessage, context = {}) => {
         }
 
         // Analyze user's emotional state
-        const emotion = analyzeEmotion(sanitizedMessage);
+        const emotionAnalysis = analyzeEmotion(sanitizedMessage);
+        const emotion = emotionAnalysis.emotion; // Extract just the emotion string
 
         // Get user memory and context
         const userMemory = await getMemory('user_profile') || {};
@@ -98,7 +99,9 @@ export const processMessage = async (userMessage, context = {}) => {
         const enhancedContext = {
             ...context,
             emotion,
-            memory: userMemory,
+            emotionAnalysis, // Include full analysis for advanced features
+            userMemory,
+            conversationLength: conversationHistory.length,
             recentHistory: conversationHistory.slice(-5), // Last 5 messages
             timestamp: new Date().toISOString()
         };

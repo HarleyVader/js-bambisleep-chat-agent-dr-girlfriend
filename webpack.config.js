@@ -50,7 +50,8 @@ export default {
                             ['@babel/preset-env', {
                                 useBuiltIns: 'usage',
                                 corejs: 3,
-                                targets: { browsers: ['>0.25%', 'not dead', 'not ie 11'] }
+                                targets: { browsers: ['>0.25%', 'not dead', 'not ie 11'] },
+                                modules: false // Keep ES modules for webpack to handle
                             }],
                             ['@babel/preset-react', { runtime: 'automatic' }]
                         ],
@@ -170,7 +171,7 @@ export default {
         static: {
             directory: path.join(__dirname, 'public'),
         },
-        port: 3000,
+        port: 3002,
         open: true,
         hot: true,
         historyApiFallback: true,

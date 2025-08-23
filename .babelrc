@@ -11,7 +11,8 @@
                         "not dead",
                         "not ie 11"
                     ]
-                }
+                },
+                "modules": false
             }
         ],
         [
@@ -24,5 +25,9 @@
     "plugins": [
         "@babel/plugin-syntax-dynamic-import",
         "@babel/plugin-transform-class-properties"
-    ]
+    ],
+    "parserOpts": {
+        "sourceType": "module",
+        "allowImportExportEverywhere": true
+    }
 }

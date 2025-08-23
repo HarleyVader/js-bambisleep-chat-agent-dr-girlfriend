@@ -1,119 +1,114 @@
-// Header.js - Enhanced header component with navigation
+// Header.js - Enhanced header with fixed navbar and hover descriptions
 // Following copilot-instructions.md: Accessible navigation design
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Header = ({ currentView, setCurrentView }) => {
-    const [showMobileMenu, setShowMobileMenu] = useState(false);
+    const [hoveredItem, setHoveredItem] = useState(null);
+    const [hoverTimer, setHoverTimer] = useState(null);
 
     const navigationItems = [
-        { id: 'chat', label: 'Chat', icon: '💬', description: 'Talk with Agent Dr Girlfriend' },
-        { id: 'journal', label: 'Dream Journal', icon: '📝', description: 'Write your thoughts and dreams' },
-        { id: 'creative', label: 'Creative Studio', icon: '🎨', description: 'Collaborate on creative projects' },
-        { id: 'relationship', label: 'Our Journey', icon: '💖', description: 'Track your relationship progress' },
-        { id: 'persona', label: 'Personality', icon: '🎭', description: 'Choose Agent Dr Girlfriend mode' }
+        { id: 'chat', label: 'Chat', icon: '💬', description: 'Talk with Agent Dr Girlfriend - Share thoughts, feelings, and have meaningful conversations' },
+        { id: 'journal', label: 'Journal', icon: '📝', description: 'Dream Journal - Write your thoughts, dreams, and private reflections' },
+        { id: 'creative', label: 'Creative', icon: '🎨', description: 'Creative Studio - Collaborate on stories, art, and creative projects together' },
+        { id: 'relationship', label: 'Journey', icon: '💖', description: 'Our Journey - Track relationship progress, milestones, and emotional growth' },
+        { id: 'persona', label: 'Mode', icon: '🎭', description: 'Personality Mode - Choose interaction style: Girlfriend, Muse, Mentor, or Ghostwriter' }
     ];
 
-    const currentItem = navigationItems.find(item => item.id === currentView) || navigationItems[0];
+    const handleMouseEnter = (itemId) => {
+        // Clear any existing timer
+        if (hoverTimer) {
+            clearTimeout(hoverTimer);
+        }
+
+        // Set 1-second delay for hover description
+        const timer = setTimeout(() => {
+            setHoveredItem(itemId);
+        }, 1000);
+
+        setHoverTimer(timer);
+    };
+
+    const handleMouseLeave = () => {
+        // Clear timer and hide description
+        if (hoverTimer) {
+            clearTimeout(hoverTimer);
+            setHoverTimer(null);
+        }
+        setHoveredItem(null);
+    };
+
+    // Cleanup timer on unmount
+    useEffect(() => {
+        return () => {
+            if (hoverTimer) {
+                clearTimeout(hoverTimer);
+            }
+        };
+    }, [hoverTimer]);
 
     const handleNavigation = (viewId) => {
         setCurrentView(viewId);
-        setShowMobileMenu(false);
-    };
-
-    const toggleMobileMenu = () => {
-        setShowMobileMenu(!showMobileMenu);
+        handleMouseLeave(); // Hide any visible descriptions
     };
 
     return (
-        <header className="header-container">
-            <div className="header-content">
-                {/* Brand Section */}
-                <div className="header-brand" onClick={() => handleNavigation('chat')}>
-                    <div className="header-avatar">
-                        <span role="img" aria-label="Agent Dr Girlfriend avatar">👩‍⚕️</span>
+        <header className="header-fixed">
+            {/* Fixed Top Navigation Bar */}
+            <nav className="top-navbar" aria-label="Main navigation">
+                <div className="navbar-container">
+                    {/* Brand/Logo */}
+                    <div className="navbar-brand" onClick={() => handleNavigation('chat')}>
+                        <span className="brand-icon">👩‍⚕️</span>
+                        <span className="brand-text">Dr_Girlfriend.exe</span>
                     </div>
-                    <div className="brand-text">
-                        <h1 className="header-title">Agent Dr Girlfriend</h1>
-                        <p className="header-subtitle">Your AI Companion</p>
-                    </div>
-                </div>
 
-                {/* Current View Indicator (Mobile) */}
-                <div className="current-view-mobile">
-                    <span className="current-icon">{currentItem.icon}</span>
-                    <span className="current-label">{currentItem.label}</span>
-                </div>
-
-                {/* Desktop Navigation */}
-                <nav className="header-nav-desktop" aria-label="Main navigation">
-                    {navigationItems.map(item => (
-                        <button
-                            key={item.id}
-                            onClick={() => handleNavigation(item.id)}
-                            className={`nav-item ${currentView === item.id ? 'active' : ''}`}
-                            aria-pressed={currentView === item.id}
-                            title={item.description}
-                        >
-                            <span className="nav-icon">{item.icon}</span>
-                            <span className="nav-label">{item.label}</span>
-                        </button>
-                    ))}
-                </nav>
-
-                {/* Mobile Menu Button */}
-                <button
-                    className="header-menu-button"
-                    onClick={toggleMobileMenu}
-                    aria-expanded={showMobileMenu}
-                    aria-label="Toggle navigation menu"
-                >
-                    <svg
-                        className={`menu-icon ${showMobileMenu ? 'open' : ''}`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                    >
-                        {showMobileMenu ? (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        ) : (
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                        )}
-                    </svg>
-                </button>
-            </div>
-
-            {/* Mobile Navigation Dropdown */}
-            {showMobileMenu && (
-                <div className="mobile-nav-dropdown">
-                    <nav className="mobile-nav" aria-label="Mobile navigation">
+                    {/* Navigation Links */}
+                    <div className="navbar-nav">
                         {navigationItems.map(item => (
-                            <button
+                            <div
                                 key={item.id}
-                                onClick={() => handleNavigation(item.id)}
-                                className={`mobile-nav-item ${currentView === item.id ? 'active' : ''}`}
-                                aria-pressed={currentView === item.id}
+                                className="nav-item-container"
+                                onMouseEnter={() => handleMouseEnter(item.id)}
+                                onMouseLeave={handleMouseLeave}
                             >
-                                <span className="mobile-nav-icon">{item.icon}</span>
-                                <div className="mobile-nav-text">
-                                    <span className="mobile-nav-label">{item.label}</span>
-                                    <span className="mobile-nav-description">{item.description}</span>
-                                </div>
-                            </button>
-                        ))}
-                    </nav>
-                </div>
-            )}
+                                <a
+                                    href={`#${item.id}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        handleNavigation(item.id);
+                                    }}
+                                    className={`nav-anchor ${currentView === item.id ? 'active' : ''}`}
+                                    aria-current={currentView === item.id ? 'page' : undefined}
+                                >
+                                    <span className="nav-icon">{item.icon}</span>
+                                    <span className="nav-label">{item.label}</span>
+                                </a>
 
-            {/* Mobile Menu Overlay */}
-            {showMobileMenu && (
-                <div
-                    className="mobile-menu-overlay"
-                    onClick={() => setShowMobileMenu(false)}
-                    aria-hidden="true"
-                ></div>
-            )}
+                                {/* Hover Description Tooltip */}
+                                {hoveredItem === item.id && (
+                                    <div className="nav-tooltip" role="tooltip">
+                                        <div className="tooltip-content">
+                                            <div className="tooltip-title">{item.label}</div>
+                                            <div className="tooltip-description">{item.description}</div>
+                                        </div>
+                                        <div className="tooltip-arrow"></div>
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Status Indicator */}
+                    <div className="navbar-status">
+                        <div className="status-indicator online"></div>
+                        <span className="status-text">Online</span>
+                    </div>
+                </div>
+            </nav>
+
+            {/* Spacer to prevent content overlap */}
+            <div className="header-spacer"></div>
         </header>
     );
 };

@@ -2,6 +2,7 @@
 // Following copilot-instructions.md: Local-first architecture with privacy protection
 
 import { getMemory, setMemory } from './memoryService.js';
+
 import { generateId } from '../utils/validation.js';
 
 // Emotion analysis using sentiment patterns and keyword detection
@@ -221,7 +222,7 @@ export const getEmotionalTrends = async (days = 7) => {
 
         // Filter recent patterns
         const recentPatterns = patterns.filter(pattern =>
-            new Date(pattern.timestamp) >= cutoffDate
+            pattern && pattern.timestamp && new Date(pattern.timestamp) >= cutoffDate
         );
 
         // Calculate trends
@@ -230,11 +231,13 @@ export const getEmotionalTrends = async (days = 7) => {
         let totalEntries = recentPatterns.length;
 
         recentPatterns.forEach(pattern => {
-            if (!emotionCounts[pattern.emotion]) {
-                emotionCounts[pattern.emotion] = 0;
+            if (pattern && pattern.emotion) {
+                if (!emotionCounts[pattern.emotion]) {
+                    emotionCounts[pattern.emotion] = 0;
+                }
+                emotionCounts[pattern.emotion]++;
+                totalIntensity += pattern.intensity || 0;
             }
-            emotionCounts[pattern.emotion]++;
-            totalIntensity += pattern.intensity;
         });
 
         // Get dominant emotions
@@ -248,21 +251,26 @@ export const getEmotionalTrends = async (days = 7) => {
 
         // Get daily trends
         const dailyTrends = Object.values(dailySummaries)
-            .filter(summary => new Date(summary.date) >= cutoffDate)
+            .filter(summary => summary && summary.date && new Date(summary.date) >= cutoffDate)
             .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        // Get dominant emotion
+        const dominantEmotion = sortedEmotions.length > 0 ? sortedEmotions[0][0] : 'neutral';
 
         return {
             totalEntries,
             averageIntensity: totalEntries > 0 ? totalIntensity / totalEntries : 0,
+            dominantEmotion,
             dominantEmotions: sortedEmotions.map(([emotion, count]) => ({
                 emotion,
                 count,
-                percentage: (count / totalEntries) * 100
+                percentage: totalEntries > 0 ? (count / totalEntries) * 100 : 0
             })),
             emotionalStability: stability,
             emotionVariety,
             dailyTrends,
-            recommendations: generateRecommendations(emotionCounts, totalIntensity / totalEntries)
+            trends: emotionCounts,
+            recommendations: generateRecommendations(emotionCounts, totalEntries > 0 ? totalIntensity / totalEntries : 0)
         };
 
     } catch (error) {
@@ -270,10 +278,12 @@ export const getEmotionalTrends = async (days = 7) => {
         return {
             totalEntries: 0,
             averageIntensity: 0,
+            dominantEmotion: 'neutral',
             dominantEmotions: [],
             emotionalStability: 1,
             emotionVariety: 0,
             dailyTrends: [],
+            trends: {},
             recommendations: []
         };
     }

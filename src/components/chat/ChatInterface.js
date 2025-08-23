@@ -1,13 +1,34 @@
-// ChatInterface.js - Main chat component for Agent Dr Girlfriend
+// ChatInterface.js - Enhanced chat component for Agent Dr Girlfriend
 // Following copilot-instructions.md: Emotional UX design with accessibility
 
 import React, { useEffect, useRef, useState } from 'react';
+import { analyzeEmotion, getEmotionalTrends, trackEmotionalPattern } from '../../services/emotionalIntelligence.js';
 import { getMemory, setMemory } from '../../services/memoryService.js';
 
 import MessageBubble from './MessageBubble.js';
 import VoiceInput from './VoiceInput.js';
-import { analyzeEmotion, trackEmotionalPattern, getEmotionalTrends } from '../../services/emotionalIntelligence.js';
 import { processMessage } from '../../services/aiService.js';
+
+// Typing indicator component
+const TypingIndicator = ({ isVisible, mood = 'neutral' }) => {
+    if (!isVisible) return null;
+
+    return (
+        <div className="typing-indicator" data-mood={mood}>
+            <div className="typing-indicator-avatar">
+                <span className="agent-icon">👩‍💼</span>
+            </div>
+            <div className="typing-indicator-bubble">
+                <div className="typing-dots">
+                    <span className="dot"></span>
+                    <span className="dot"></span>
+                    <span className="dot"></span>
+                </div>
+                <div className="typing-text">Dr Girlfriend is thinking...</div>
+            </div>
+        </div>
+    );
+};
 
 // Enhanced chat hook with real AI integration
 const useEnhancedChat = () => {
@@ -225,79 +246,68 @@ const ChatInterface = () => {
                     />
                 ))}
 
-                {/* Loading indicator */}
-                {isLoading && (
-                    <div className="typing-indicator">
-                        <span className="typing-text">
-                            Agent Dr Girlfriend is thinking...
-                        </span>
-                        <div className="typing-dots">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
-                    </div>
-                )}
+                {/* Enhanced Typing indicator */}
+                <TypingIndicator isVisible={isLoading} mood={userContext.mood} />
 
                 {/* Auto-scroll anchor */}
                 <div ref={messagesEndRef} />
-            </div>
 
-            {/* Input Container */}
-            <div className="chat-input-container">
-                <div className="input-form">
-                    <textarea
-                        ref={inputRef}
-                        value={inputValue}
-                        onChange={handleInputChange}
-                        onKeyDown={handleKeyPress}
-                        placeholder="Share your thoughts with Agent Dr Girlfriend..."
-                        className="chat-textarea"
-                        rows="2"
-                        aria-label="Message input"
-                        maxLength="2000"
-                        disabled={isLoading}
-                    />
-                    <div className="input-controls"
-                        role="group"
-                        aria-label="Chat controls">
-
-                        {/* Voice Input Button */}
-                        <VoiceInput
-                            onResult={handleVoiceInput}
-                            isEnabled={!isLoading}
+                {/* Floating Input Container */}
+                <div className="floating-input-container">
+                    <div className="input-form">
+                        <textarea
+                            ref={inputRef}
+                            value={inputValue}
+                            onChange={handleInputChange}
+                            onKeyDown={handleKeyPress}
+                            placeholder="Share your thoughts with Agent Dr Girlfriend..."
+                            className="chat-textarea"
+                            rows="2"
+                            aria-label="Message input"
+                            maxLength="2000"
+                            disabled={isLoading}
                         />
+                        <div className="input-controls"
+                            role="group"
+                            aria-label="Chat controls">
 
-                        {/* Send Button */}
-                        <button
-                            type="button"
-                            onClick={handleSendMessage}
-                            disabled={!inputValue.trim() || isLoading}
-                            className="send-button"
-                            aria-label={isLoading ? "Sending..." : "Send message"}
-                        >
-                            {isLoading ? (
-                                <span className="loading-indicator">
-                                    <span className="loading-dot"></span>
-                                    <span className="loading-dot"></span>
-                                    <span className="loading-dot"></span>
-                                </span>
-                            ) : (
-                                <svg
-                                    className="send-icon"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    aria-hidden="true">
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-                                    />
-                                </svg>
-                            )}
-                        </button>
+                            {/* Voice Input Button */}
+                            <VoiceInput
+                                onResult={handleVoiceInput}
+                                isEnabled={!isLoading}
+                            />
+
+                            {/* Send Button */}
+                            <button
+                                type="button"
+                                onClick={handleSendMessage}
+                                disabled={!inputValue.trim() || isLoading}
+                                className="send-button"
+                                aria-label={isLoading ? "Sending..." : "Send message"}
+                            >
+                                {isLoading ? (
+                                    <span className="loading-indicator">
+                                        <span className="loading-dot"></span>
+                                        <span className="loading-dot"></span>
+                                        <span className="loading-dot"></span>
+                                    </span>
+                                ) : (
+                                    <svg
+                                        className="send-icon"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                        aria-hidden="true">
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
