@@ -47,8 +47,7 @@ const {
     alertQueue,         // Number: alerts in queue
     connectionStatus,   // String: websocket connection state
     ALERT_TYPES,        // Object: available alert types
-    dismissAlert,       // Function: manually dismiss current alert
-    triggerTestAlert    // Function: trigger test alert (dev only)
+    dismissAlert        // Function: manually dismiss current alert
 } = useBambisleepAlerts();
 ```
 
@@ -171,15 +170,6 @@ The alert system is seamlessly integrated into the existing Header component:
 4. **Accessibility** with proper ARIA roles and screen reader support
 
 ## Development Tools
-
-### Alert Test Panel
-
-Available in development mode at the bottom of the main content area:
-
-- Test all alert types
-- Monitor connection status
-- View queue information
-- Interactive buttons for each alert type
 
 ### Browser Console
 

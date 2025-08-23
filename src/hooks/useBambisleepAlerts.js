@@ -290,27 +290,6 @@ const useBambisleepAlerts = () => {
         hideAlert();
     }, [hideAlert]);
 
-    // Simulate alert for testing (works in both Socket.IO and mock modes)
-    const triggerTestAlert = useCallback((type = ALERT_TYPES.INFO) => {
-        const testAlert = {
-            type,
-            title: `Test ${type.charAt(0).toUpperCase() + type.slice(1)}`,
-            message: `This is a test ${type} from bambisleep prime`,
-            priority: type === ALERT_TYPES.ALERT ? 'high' : 'normal'
-        };
-
-        // In mock mode or if Socket.IO is connected, handle locally
-        if (isDevelopmentMode || connectionStatus === 'mock') {
-            handleIncomingAlert(testAlert);
-        } else if (socketRef.current && socketRef.current.connected) {
-            // Send test alert through Socket.IO if connected
-            socketRef.current.emit('test-alert', testAlert);
-        } else {
-            // Fallback to local handling
-            handleIncomingAlert(testAlert);
-        }
-    }, [handleIncomingAlert, isDevelopmentMode, connectionStatus]);
-
     // Initialize Socket.IO connection
     useEffect(() => {
         connectSocketIO();
@@ -347,7 +326,6 @@ const useBambisleepAlerts = () => {
 
         // Actions
         dismissAlert,
-        triggerTestAlert, // For development/testing
 
         // Connection control
         reconnect: connectSocketIO, // Primary: Socket.IO

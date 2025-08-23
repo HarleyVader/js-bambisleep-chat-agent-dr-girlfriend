@@ -18,7 +18,6 @@ const RelationshipDashboard = lazy(() => import('./components/relationship/Relat
 const PersonaSelector = lazy(() => import('./components/ui/PersonaSelector.js'));
 const Header = lazy(() => import('./components/layout/Header.js'));
 const Sidebar = lazy(() => import('./components/layout/Sidebar.js'));
-const AlertTestPanel = lazy(() => import('./components/ui/AlertTestPanel.js'));
 
 // Error Boundary for graceful error handling
 class ErrorBoundary extends React.Component {
@@ -217,12 +216,6 @@ const App = () => {
                         {currentView === 'persona' && <PersonaSelector />}
                     </Suspense>
 
-                    {/* Development Alert Test Panel */}
-                    {(process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') && (
-                        <Suspense fallback={<div>Loading alert test panel...</div>}>
-                            <AlertTestPanel />
-                        </Suspense>
-                    )}
                 </main>
             </div>
 

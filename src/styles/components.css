@@ -2629,125 +2629,6 @@
     }
 }
 
-/* === ALERT TEST PANEL === */
-.alert-test-panel {
-    background: rgba(17, 17, 24, 0.9);
-    border: 0.1vw solid #00ffff;
-    border-radius: 1vh;
-    padding: 2vh 2vw;
-    margin: 2vh 0;
-    color: #ffffff;
-}
-
-.test-panel-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2vh;
-    border-bottom: 0.1vw solid #333;
-    padding-bottom: 1vh;
-}
-
-.test-panel-header h3 {
-    margin: 0;
-    color: #00ffff;
-    text-shadow: 0 0 0.5vw #00ffff;
-}
-
-.connection-info {
-    display: flex;
-    gap: 1vw;
-    font-size: 0.9rem;
-}
-
-.connection-status {
-    padding: 0.5vh 1vw;
-    border-radius: 0.5vh;
-    font-weight: 700;
-}
-
-.connection-status.connected {
-    background: rgba(57, 255, 20, 0.2);
-    color: #39ff14;
-    border: 0.1vw solid #39ff14;
-}
-
-.connection-status.reconnecting {
-    background: rgba(255, 165, 0, 0.2);
-    color: #ffa500;
-    border: 0.1vw solid #ffa500;
-}
-
-.connection-status.disconnected,
-.connection-status.error,
-.connection-status.failed {
-    background: rgba(255, 0, 0, 0.2);
-    color: #ff0000;
-    border: 0.1vw solid #ff0000;
-}
-
-.queue-info {
-    background: rgba(255, 0, 128, 0.2);
-    color: #ff0080;
-    border: 0.1vw solid #ff0080;
-    padding: 0.5vh 1vw;
-    border-radius: 0.5vh;
-    font-weight: 700;
-}
-
-.test-buttons {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1vh;
-    margin-bottom: 2vh;
-}
-
-.test-button {
-    padding: 1vh 2vw;
-    border-radius: 0.5vh;
-    border: 0.1vw solid;
-    background: transparent;
-    color: currentColor;
-    cursor: pointer;
-    font-weight: 700;
-    transition: all 0.2s ease;
-    text-shadow: 0 0 0.5vw currentColor;
-}
-
-.test-button:hover {
-    background: currentColor;
-    color: var(--bg-primary);
-    box-shadow: 0 0 1vw currentColor;
-}
-
-.test-button.alert-update {
-    color: #00ffff;
-    border-color: #00ffff;
-}
-
-.test-button.alert-warning {
-    color: #ffa500;
-    border-color: #ffa500;
-}
-
-.test-button.alert-alert {
-    color: #ff0000;
-    border-color: #ff0000;
-}
-
-.test-button.alert-info {
-    color: #39ff14;
-    border-color: #39ff14;
-}
-
-.test-info {
-    background: rgba(0, 255, 255, 0.1);
-    border: 0.1vw solid #00ffff;
-    border-radius: 0.5vh;
-    padding: 1vh 1.5vw;
-    font-size: 0.9rem;
-}
-
 .test-info p {
     margin: 0 0 1vh 0;
     color: #00ffff;
@@ -3831,8 +3712,8 @@
     font-size: clamp(1.8rem, 3vw, 2.4rem);
     font-weight: 700;
     background: linear-gradient(45deg, #00ffff, #ff0080);
-    background-clip: text;
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
 }
