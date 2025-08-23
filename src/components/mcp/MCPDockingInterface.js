@@ -1,10 +1,12 @@
 // 🇦🇹 Agent Dr Girlfriend - MCP Docking Interface Component
 // Österreichische UI für secure bambisleep.chat integration
 
-import React, { useState, useEffect } from 'react';
+import '../../styles/mcp/MCPDockingInterface.css';
+
+import React, { useEffect, useState } from 'react';
+
 import { useMCPDocking } from '../../hooks/useMCPDocking.js';
 import useNameTransformation from '../../hooks/useNameTransformation.js';
-import '../../styles/mcp/MCPDockingInterface.css';
 
 /**
  * 🔗 MCPDockingInterface Component
@@ -150,7 +152,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
             {/* Connection Status */}
             <div className="mcp-status-panel">
                 <StatusIndicator status={dockingStatus} health={connectionHealth} />
-                
+
                 <div className="mcp-status-details">
                     <div className="status-item">
                         <span>🔐 Patron Verified:</span>
@@ -194,7 +196,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
             {!isConnected && (
                 <div className="mcp-config-panel">
                     <h3>🛰️ Server Configuration</h3>
-                    
+
                     <div className="config-field">
                         <label>🌐 MCP Endpoint:</label>
                         <input
@@ -234,7 +236,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
                         <button onClick={() => setShowAdvanced(!showAdvanced)} className="button">
                             {showAdvanced ? 'Hide' : 'Show'} Advanced
                         </button>
-                        <button 
+                        <button
                             onClick={handleConnect}
                             disabled={!serverConfig.endpoint || !serverConfig.gdprEndpoint}
                             className="button cyber-text-cyan"
@@ -249,7 +251,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
             {isConnected && !patronVerified && (
                 <div className="mcp-patron-panel">
                     <h3>🔐 Patron Verification</h3>
-                    
+
                     <div className="config-field">
                         <label>🆔 BambiSleep ID:</label>
                         <input
@@ -272,7 +274,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
                         />
                     </div>
 
-                    <button 
+                    <button
                         onClick={handlePatronVerification}
                         disabled={!patronCredentials.bambisleepId || !patronCredentials.patronKey}
                         className="button cyber-text-green"
@@ -286,24 +288,24 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
             {isConnected && patronVerified && (
                 <div className="mcp-controls-panel">
                     <h3>🎛️ Operational Controls</h3>
-                    
+
                     <div className="control-buttons">
-                        <button 
+                        <button
                             onClick={handleTestDeposit}
                             disabled={!canDeposit}
                             className="button cyber-text-cyan"
                         >
                             💾 Test Data Deposit
                         </button>
-                        
-                        <button 
+
+                        <button
                             onClick={() => handleDataRights('RIGHT_TO_ACCESS')}
                             className="button"
                         >
                             📋 Request Data Export
                         </button>
-                        
-                        <button 
+
+                        <button
                             onClick={() => handleDataRights('RIGHT_TO_ERASURE')}
                             className="button cyber-text-orange"
                         >
@@ -312,7 +314,7 @@ const MCPDockingInterface = ({ bambisleepConfig, onConnectionChange }) => {
                     </div>
 
                     <div className="emergency-controls">
-                        <button 
+                        <button
                             onClick={() => emergencyDisconnect('User requested emergency disconnect')}
                             className="button emergency-button"
                         >

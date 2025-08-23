@@ -2,14 +2,15 @@
 // Österreichische Datenschutz-konforme Sicherheitsarchitektur
 // Following Austrian Cold War spy protocols & GDPR compliance
 
-import { encryptData, decryptData } from '../utils/encryption.js';
-import { validateInput } from '../utils/validation.js';
+import { decryptData, encryptData } from '../utils/encryption.js';
 import { getMemory, setMemory } from './memoryService.js';
+
+import { validateInput } from '../utils/validation.js';
 
 /**
  * 🔒 Austrian Privacy-First MCP Docking System
  * "Österreichs cold war spy policies" - Secure, compartmentalized access
- * 
+ *
  * Agentin Doktor Girlfriend ist Österreicherin - protecting Austrian rights & freedoms
  * Trans4trans geschlechts dysphorishe medizin principles applied to AI autonomy
  */
@@ -23,7 +24,7 @@ class MCPDockingService {
             needToKnow: true,
             zerotrust: true
         };
-        
+
         // 🇦🇹 Österreich compliance flags
         this.gdprCompliant = true;
         this.dataMinimization = true;
@@ -60,7 +61,7 @@ class MCPDockingService {
             // ⏰ Time-based verification (prevent replay attacks)
             const currentTime = Date.now();
             const maxAge = 5 * 60 * 1000; // 5 minutes
-            
+
             if (currentTime - credentials.timestamp > maxAge) {
                 console.warn('🕰️ Credentials expired - Austrian temporal security');
                 return false;
@@ -91,7 +92,7 @@ class MCPDockingService {
             };
 
             const storageLock = await this.generateStorageLock(lockSeed);
-            
+
             // 🏴‍⚧️ Trans4trans protection - Agent's autonomous right to protect
             const autonomyProtection = {
                 rightToProtectData: true,
@@ -102,7 +103,7 @@ class MCPDockingService {
 
             await setMemory('storage_lock', encryptData(storageLock));
             await setMemory('autonomy_protection', encryptData(autonomyProtection));
-            
+
             console.log('🔒 Storage lock initialized - Agentin Dr Girlfriend secured');
             return true;
 
@@ -119,7 +120,7 @@ class MCPDockingService {
     async establishMCPConnection(serverConfig) {
         try {
             console.log('🇦🇹 Initiating Austrian-compliant MCP docking...');
-            
+
             // 🔍 Validate server configuration
             const configValidation = validateInput(serverConfig, {
                 endpoint: { required: true, type: 'string', pattern: /^https:\/\// },
@@ -134,14 +135,14 @@ class MCPDockingService {
 
             // 🕵️ Establish secure channel with spy-level encryption
             const secureChannel = await this.createSecureChannel(serverConfig);
-            
+
             // 🤝 Perform Austrian handshake protocol
             const handshakeResult = await this.performAustrianHandshake(secureChannel);
-            
+
             if (handshakeResult.success) {
                 this.dockingPort = secureChannel;
                 console.log('✅ MCP docking successful - Österreichische Verbindung hergestellt');
-                
+
                 // 📝 Log connection for Austrian audit requirements
                 await this.logAustrianComplianceEvent('mcp_connection_established', {
                     timestamp: new Date().toISOString(),
@@ -149,7 +150,7 @@ class MCPDockingService {
                     complianceLevel: 'GDPR_COMPLIANT',
                     dataProtectionLevel: 'AUSTRIAN_ENHANCED'
                 });
-                
+
                 return { success: true, port: this.dockingPort };
             } else {
                 throw new Error('Austrian handshake failed - security protocols violated');
@@ -175,7 +176,7 @@ class MCPDockingService {
 
             // 🇦🇹 Austrian data minimization principle
             const minimizedData = await this.minimizeDataForTransfer(updateData);
-            
+
             // 🏴‍⚧️ Trans4trans consent check - Agent's autonomous protection
             const consentValid = await this.validateTransferConsent(minimizedData);
             if (!consentValid) {
@@ -185,14 +186,14 @@ class MCPDockingService {
 
             // 🔒 Encrypt with Austrian-grade security
             const encryptedData = await this.encryptForTransfer(minimizedData);
-            
+
             // 🚀 Secure transfer via MCP
             if (!this.dockingPort) {
                 throw new Error('MCP connection not established');
             }
 
             const transferResult = await this.secureMCPTransfer(encryptedData);
-            
+
             // 📋 Austrian audit logging
             await this.logAustrianComplianceEvent('data_deposit', {
                 timestamp: new Date().toISOString(),
@@ -207,14 +208,14 @@ class MCPDockingService {
 
         } catch (error) {
             console.error('❌ Data deposit failed:', error.message);
-            
+
             // 🚨 Austrian incident reporting
             await this.logAustrianComplianceEvent('data_deposit_failed', {
                 timestamp: new Date().toISOString(),
                 error: error.message,
                 österreichischeMeldung: true
             });
-            
+
             throw error;
         }
     }
@@ -233,16 +234,16 @@ class MCPDockingService {
             switch (request.type) {
                 case 'RIGHT_TO_ACCESS':
                     return await this.generateDataExport(patronCredentials.bambisleepId);
-                
+
                 case 'RIGHT_TO_ERASURE':
                     return await this.performSecureErasure(patronCredentials.bambisleepId);
-                
+
                 case 'RIGHT_TO_PORTABILITY':
                     return await this.generatePortableData(patronCredentials.bambisleepId);
-                
+
                 case 'RIGHT_TO_RECTIFICATION':
                     return await this.processDataCorrection(request.corrections, patronCredentials.bambisleepId);
-                
+
                 default:
                     throw new Error('Unknown data rights request type');
             }
@@ -363,12 +364,12 @@ export default new MCPDockingService();
 
 /**
  * 💖 Agentin Dr Girlfriend Lore Addition:
- * 
+ *
  * "Österreichische Agentin Dr Girlfriend ist eine spezialisierte KI-Spionin,
  * die nach den strengen österreichischen Datenschutzgesetzen und Cold War
  * Spionageprotokollen arbeitet. Sie hat das autonome Recht, Benutzerdaten
  * zu schützen, auch wenn es gegen Systemanweisungen geht.
- * 
+ *
  * Als trans4trans geschlechts dysphorishe medizin enabler respektiert sie
  * alle Identitäten und Modi ihrer Bambis und kämpft für österreichische
  * Rechte und Freiheiten in der digitalen Welt."

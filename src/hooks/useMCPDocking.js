@@ -1,9 +1,10 @@
 // 🇦🇹 Agent Dr Girlfriend - MCP Integration Hook
 // Österreichische React Hook für sichere bambisleep.chat Docking
 
-import React, { useState, useEffect, useCallback } from 'react';
-import mcpDockingService from '../services/mcpDockingService.js';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getMemory, setMemory } from '../services/memoryService.js';
+
+import mcpDockingService from '../services/mcpDockingService.js';
 
 /**
  * 🔗 useMCPDocking Hook
@@ -55,12 +56,12 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
             }
 
             const connectionResult = await mcpDockingService.establishMCPConnection(serverConfig);
-            
+
             if (connectionResult.success) {
                 setDockingStatus('CONNECTED');
                 setConnectionHealth('HEALTHY');
                 console.log('✅ MCP Connection established - Österreichisch gesichert');
-                
+
                 // Start health monitoring
                 startHealthMonitoring();
             }
@@ -80,7 +81,7 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
         try {
             const verified = await mcpDockingService.verifyPatronAccess(credentials);
             setPatronVerified(verified);
-            
+
             if (verified) {
                 setGdprStatus(prev => ({ ...prev, consentValid: true }));
                 console.log('✅ Patron verified - Austrian access granted');
@@ -107,10 +108,10 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
             }
 
             const result = await mcpDockingService.depositBambiUpdates(updateData, patronCredentials);
-            
+
             setLastSync(new Date().toISOString());
             console.log('✅ Bambi updates deposited - Österreichisch synchronisiert');
-            
+
             return result;
 
         } catch (error) {
@@ -124,7 +125,7 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
     const processDataRights = useCallback(async (request, patronCredentials) => {
         try {
             const result = await mcpDockingService.processDataRightsRequest(request, patronCredentials);
-            
+
             console.log(`🇦🇹 Austrian data right ${request.type} processed successfully`);
             return result;
 
@@ -141,7 +142,7 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
                 // Simple ping to verify connection
                 const health = await checkConnectionHealth();
                 setConnectionHealth(health ? 'HEALTHY' : 'DEGRADED');
-                
+
                 if (!health) {
                     console.warn('⚠️ MCP connection health degraded');
                 }
@@ -169,17 +170,17 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
     const disconnect = useCallback(async () => {
         try {
             setDockingStatus('DISCONNECTING');
-            
+
             // Perform secure disconnect
             if (mcpDockingService.dockingPort) {
                 await mcpDockingService.dockingPort.close();
             }
-            
+
             setDockingStatus('DISCONNECTED');
             setConnectionHealth(null);
             setPatronVerified(false);
             setLastSync(null);
-            
+
             console.log('🔌 MCP connection closed - Österreichisch gesichert');
 
         } catch (error) {
@@ -192,12 +193,12 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
     const emergencyDisconnect = useCallback(async (reason) => {
         try {
             console.log(`🚨 EMERGENCY DISCONNECT: ${reason} - Austrian protection activated`);
-            
+
             // Immediate disconnection without waiting
             setDockingStatus('EMERGENCY_DISCONNECTED');
             setConnectionHealth('EMERGENCY');
             setError(`Emergency disconnect: ${reason}`);
-            
+
             // Log incident for Austrian compliance
             await mcpDockingService.logAustrianComplianceEvent('emergency_disconnect', {
                 reason,
