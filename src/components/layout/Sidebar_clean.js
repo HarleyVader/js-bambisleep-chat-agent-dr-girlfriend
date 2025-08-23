@@ -1,12 +1,10 @@
 // Sidebar.js - Enhanced sidebar with Agent Dr Girlfriend stats and telemetry
 // Following copilot-instructions.md: Emotional UX design with comprehensive stats
 
-import React, { useEffect, useState } from 'react';
-
+import React, { useState, useEffect } from 'react';
+import { getMemory } from '../../services/memoryService.js';
 import QuickModeSelector from '../ui/QuickModeSelector.js';
 import StatsPanel from '../ui/StatsPanel.js';
-import { getMemory } from '../../services/memoryService.js';
-import useNameTransformation from '../../hooks/useNameTransformation.js';
 
 const Sidebar = ({ currentView, setCurrentView }) => {
     const [userContext, setUserContext] = useState(null);
@@ -17,9 +15,6 @@ const Sidebar = ({ currentView, setCurrentView }) => {
     const [screenReaderEnabled, setScreenReaderEnabled] = useState(false);
     const [currentPersona, setCurrentPersona] = useState('GIRLFRIEND');
     const [showStatsPanel, setShowStatsPanel] = useState(false);
-
-    // Import name transformation hook
-    const { getDisplayName, getPersonalizedGreeting, fullName, name } = useNameTransformation();
 
     // Detect if screen reader is likely active
     useEffect(() => {
@@ -61,7 +56,7 @@ const Sidebar = ({ currentView, setCurrentView }) => {
             if (announcement) {
                 announcement.textContent = 'Screen reader mode enabled - accessibility features are now visible';
                 setTimeout(() => {
-                    announcement.textContent = `${fullName} is ready for conversation`;
+                    announcement.textContent = 'Agent Dr Girlfriend is ready for conversation';
                 }, 3000);
             }
         } else {
@@ -70,7 +65,7 @@ const Sidebar = ({ currentView, setCurrentView }) => {
             if (announcement) {
                 announcement.textContent = 'Screen reader mode disabled';
                 setTimeout(() => {
-                    announcement.textContent = `${fullName} is ready for conversation`;
+                    announcement.textContent = 'Agent Dr Girlfriend is ready for conversation';
                 }, 3000);
             }
         }
@@ -162,12 +157,29 @@ const Sidebar = ({ currentView, setCurrentView }) => {
         loadSidebarData();
     }, [currentView]); // Refresh when view changes
 
+    const getPersonalizedGreeting = () => {
+        const hour = new Date().getHours();
+        const timeOfDay = hour < 12 ? 'morning' : hour < 18 ? 'afternoon' : 'evening';
+
+        if (userContext?.preferred_mode) {
+            const modeGreetings = {
+                'MUSE': `✨ Creative ${timeOfDay}, darling`,
+                'MENTOR': `🧠 Good ${timeOfDay}, love`,
+                'GIRLFRIEND': `💖 Hey beautiful`,
+                'GHOSTWRITER': `📝 Ready to write?`
+            };
+            return modeGreetings[userContext.preferred_mode] || `Good ${timeOfDay}!`;
+        }
+
+        return `Good ${timeOfDay}!`;
+    };
+
     if (isLoading) {
         return (
             <aside className="sidebar loading">
                 <div className="loading-container">
                     <div className="loading-spinner">💖</div>
-                    <p>Loading {getDisplayName('name')}...</p>
+                    <p>Loading Agent Dr Girlfriend...</p>
                 </div>
             </aside>
         );
@@ -175,11 +187,11 @@ const Sidebar = ({ currentView, setCurrentView }) => {
 
     return (
         <>
-            <aside className="sidebar" role="complementary" aria-label={`${fullName} Stats and Navigation`}>
+            <aside className="sidebar" role="complementary" aria-label="Agent Dr Girlfriend Stats and Navigation">
 
                 {/* Scrollable Content Area */}
                 <div className="sidebar-scrollable">
-                    {/* Agent Profile Section */}
+                    {/* Agent Dr Girlfriend Profile Section */}
                     <div className="sidebar-profile">
                         <div className="profile-header">
                             <div className="profile-avatar">
@@ -187,7 +199,7 @@ const Sidebar = ({ currentView, setCurrentView }) => {
                                 <div className="status-indicator online"></div>
                             </div>
                             <div className="profile-info">
-                                <h2 className="profile-name agent-name">{fullName}</h2>
+                                <h2 className="profile-name">Agent Dr Girlfriend</h2>
                                 <p className="profile-subtitle">AI Companion from 2030</p>
                                 <p className="profile-greeting">{getPersonalizedGreeting()}</p>
                             </div>
@@ -266,7 +278,7 @@ const Sidebar = ({ currentView, setCurrentView }) => {
                         aria-live="polite"
                         aria-atomic="true"
                     >
-                        {fullName} is ready for conversation
+                        Agent Dr Girlfriend is ready for conversation
                     </div>
 
                     <div className="footer-text">

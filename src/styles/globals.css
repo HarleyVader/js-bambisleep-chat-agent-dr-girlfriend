@@ -41,6 +41,8 @@ body {
     background: #0a0a0f;
     position: relative;
     overflow: hidden;
+    padding-top: 6vh;
+    /* Space for fixed header */
 }
 
 /* Cyber terminal scanlines effect */
@@ -216,4 +218,84 @@ textarea {
     border: none;
     color: inherit;
     font-family: inherit;
+}
+
+/* ================================================
+   ACCESSIBILITY & SCREEN READER STYLES
+   ================================================ */
+
+/* Screen reader only content - visually hidden but accessible */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Show screen reader content when focused (for skip links) */
+.sr-only:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    background: #ff0080 !important;
+    color: #0a0a0f !important;
+    border: 2px solid #00ffff !important;
+    border-radius: 0.5rem !important;
+    z-index: 9999 !important;
+}
+
+/* Screen reader enabled state - show announcements visually */
+.screen-reader-enabled .sr-announcements {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: 1px solid #00ffff !important;
+    background: rgba(0, 255, 255, 0.1) !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.8rem !important;
+    text-align: center !important;
+}
+
+/* Screen reader toggle button */
+.screen-reader-toggle {
+    background: rgba(0, 255, 255, 0.1) !important;
+    border: 1px solid #00ffff !important;
+    border-radius: 50% !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    margin: 0.5rem auto !important;
+}
+
+.screen-reader-toggle:hover {
+    background: rgba(0, 255, 255, 0.2) !important;
+    box-shadow: 0 0 1rem rgba(0, 255, 255, 0.4) !important;
+}
+
+.screen-reader-toggle:focus {
+    outline: 2px solid #ff0080 !important;
+    outline-offset: 2px !important;
+}
+
+.screen-reader-toggle.active {
+    background: rgba(255, 0, 128, 0.2) !important;
+    border-color: #ff0080 !important;
 }

@@ -5,12 +5,17 @@ import React, { useEffect, useState } from 'react';
 import { getEmotionalTrends, trackEmotionalPattern } from '../../services/emotionalIntelligence.js';
 import { getMemory, setMemory } from '../../services/memoryService.js';
 
+import useNameTransformation from '../../hooks/useNameTransformation.js';
+
 const RelationshipDashboard = () => {
     const [relationshipData, setRelationshipData] = useState(null);
     const [emotionalTrends, setEmotionalTrends] = useState(null);
     const [conversationStats, setConversationStats] = useState(null);
     const [milestones, setMilestones] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+
+    // Import name transformation hook
+    const { getDisplayName, fullName } = useNameTransformation();
 
     // Load relationship data on mount
     useEffect(() => {
@@ -284,7 +289,7 @@ const RelationshipDashboard = () => {
 
     const calculateAverageResponseTime = (conversations) => {
         // This is a simplified calculation
-        return '< 1 minute'; // Agent Dr Girlfriend is always quick to respond!
+        return '< 1 minute'; // ${fullName} is always quick to respond!
     };
 
     const addMilestone = async (milestone) => {
@@ -455,7 +460,7 @@ const RelationshipDashboard = () => {
 
             {/* Relationship Insights */}
             <div className="relationship-insights">
-                <h2 className="section-title">Agent Dr Girlfriend's Insights</h2>
+                <h2 className="section-title">{getDisplayName('name')}'s Insights</h2>
                 <div className="insights-list">
                     {getRelationshipInsights().map((insight, index) => (
                         <div key={index} className="insight-item">

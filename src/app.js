@@ -8,6 +8,7 @@ import './styles/components.css';
 import React, { StrictMode, Suspense, lazy } from 'react';
 
 import { createRoot } from 'react-dom/client';
+import useNameTransformation from './hooks/useNameTransformation.js';
 
 // Lazy load components for performance optimization
 const ChatInterface = lazy(() => import('./components/chat/ChatInterface.js'));
@@ -17,6 +18,7 @@ const RelationshipDashboard = lazy(() => import('./components/relationship/Relat
 const PersonaSelector = lazy(() => import('./components/ui/PersonaSelector.js'));
 const Header = lazy(() => import('./components/layout/Header.js'));
 const Sidebar = lazy(() => import('./components/layout/Sidebar.js'));
+const AlertTestPanel = lazy(() => import('./components/ui/AlertTestPanel.js'));
 
 // Error Boundary for graceful error handling
 class ErrorBoundary extends React.Component {
@@ -70,22 +72,29 @@ class ErrorBoundary extends React.Component {
 }
 
 // Loading component for Suspense fallbacks
-const LoadingSpinner = ({ message = "Loading..." }) => (
-    <div className="loading-screen">
-        <div className="loading-container">
-            <div className="loading-spinner">
-                <div className="loading-avatar"></div>
+const LoadingSpinner = ({ message = "Loading..." }) => {
+    const { fullName } = useNameTransformation();
+
+    return (
+        <div className="loading-screen">
+            <div className="loading-container">
+                <div className="loading-spinner">
+                    <div className="loading-avatar"></div>
+                </div>
+                <h2 className="loading-title">{fullName}</h2>
+                <p className="loading-message">{message}</p>
             </div>
-            <h2 className="loading-title">Agent Dr Girlfriend</h2>
-            <p className="loading-message">{message}</p>
         </div>
-    </div>
-);
+    );
+};
 
 // Main App Component with emotional UX foundation
 const App = () => {
     const [currentView, setCurrentView] = React.useState('chat');
     const [isLoading, setIsLoading] = React.useState(true);
+
+    // Import name transformation hook
+    const { getDisplayName, fullName } = useNameTransformation();
 
     // Initialize app after a brief loading period for emotional UX
     React.useEffect(() => {
@@ -145,13 +154,13 @@ const App = () => {
 
                     // Make manual cleanup available but not automatic
                     window.manualStorageCleanup = () => {
-                        if (confirm('Are you sure you want to clear all Agent Dr Girlfriend data? This cannot be undone.')) {
+                        if (confirm(`Are you sure you want to clear all ${fullName} data? This cannot be undone.`)) {
                             window.emergencyStorageCleanup();
                         }
                     };
                 }
 
-                console.log('🚀 Initializing Agent Dr Girlfriend...');
+                console.log(`🚀 Initializing ${fullName}...`);
             } catch (error) {
                 console.error('Initialization failed:', error);
             }
@@ -162,7 +171,7 @@ const App = () => {
                 // Announce to screen readers
                 const announcement = document.getElementById('sr-announcements');
                 if (announcement) {
-                    announcement.textContent = 'Agent Dr Girlfriend is ready for conversation';
+                    announcement.textContent = `${fullName} is ready for conversation`;
                 }
             }, 1500);
 
@@ -186,8 +195,8 @@ const App = () => {
 
     return (
         <div className="app-container">
-            {/* Fixed Sidebar with Agent Dr Girlfriend Stats */}
-            <Suspense fallback={<div className="sidebar-loading">💖 Loading Agent Dr Girlfriend...</div>}>
+            {/* Fixed Sidebar with dynamic agent stats */}
+            <Suspense fallback={<div className="sidebar-loading">💖 Loading {fullName}...</div>}>
                 <Sidebar currentView={currentView} setCurrentView={setCurrentView} />
             </Suspense>
 
@@ -207,6 +216,13 @@ const App = () => {
                         {currentView === 'relationship' && <RelationshipDashboard />}
                         {currentView === 'persona' && <PersonaSelector />}
                     </Suspense>
+
+                    {/* Development Alert Test Panel */}
+                    {(process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost') && (
+                        <Suspense fallback={<div>Loading alert test panel...</div>}>
+                            <AlertTestPanel />
+                        </Suspense>
+                    )}
                 </main>
             </div>
 
@@ -216,7 +232,7 @@ const App = () => {
                     <button
                         onClick={() => setCurrentView('chat')}
                         className={`nav-button ${currentView === 'chat' ? 'active' : ''}`}
-                        aria-label="Chat with Agent Dr Girlfriend"
+                        aria-label={`Chat with ${fullName}`}
                     >
                         <span className="nav-icon">💬</span>
                         <span className="nav-label">Chat</span>

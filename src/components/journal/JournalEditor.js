@@ -1,10 +1,12 @@
 // JournalEditor.js - Enhanced journal with emotional intelligence
 // Following copilot-instructions.md: Emotional UX design with autosave
 
-import React, { useState, useEffect, useRef } from 'react';
-import EmotionalTagging from './EmotionalTagging.js';
+import React, { useEffect, useRef, useState } from 'react';
 import { analyzeEmotion, trackEmotionalPattern } from '../../services/emotionalIntelligence.js';
 import { getMemory, setMemory } from '../../services/memoryService.js';
+
+import EmotionalTagging from './EmotionalTagging.js';
+import useNameTransformation from '../../hooks/useNameTransformation.js';
 import { validateInput } from '../../utils/validation.js';
 
 const JournalEditor = () => {
@@ -13,6 +15,9 @@ const JournalEditor = () => {
     const [isAutoSaving, setIsAutoSaving] = useState(false);
     const [lastSaved, setLastSaved] = useState(null);
     const [currentMood, setCurrentMood] = useState('neutral');
+
+    // Import name transformation hook
+    const { getDisplayName, fullName } = useNameTransformation();
     const [journalEntries, setJournalEntries] = useState([]);
     const [selectedEntry, setSelectedEntry] = useState(null);
     const autoSaveTimeout = useRef(null);
@@ -219,7 +224,7 @@ const JournalEditor = () => {
                     <textarea
                         value={entry}
                         onChange={handleTextChange}
-                        placeholder="Pour your thoughts, dreams, and feelings onto this digital canvas... Let Agent Dr Girlfriend help you explore your inner landscape. ✨"
+                        placeholder={`Pour your thoughts, dreams, and feelings onto this digital canvas... Let ${fullName} help you explore your inner landscape. ✨`}
                         className={`journal-textarea mood-${currentMood}`}
                         rows="15"
                         aria-label="Journal entry text area"

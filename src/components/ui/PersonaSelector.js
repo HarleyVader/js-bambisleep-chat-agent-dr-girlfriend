@@ -4,11 +4,16 @@
 import React, { useEffect, useState } from 'react';
 import { getMemory, setMemory } from '../../services/memoryService.js';
 
+import useNameTransformation from '../../hooks/useNameTransformation.js';
+
 const PersonaSelector = ({ selectedPersona = 'GIRLFRIEND', onSelect, showDetails = false }) => {
     const [currentPersona, setCurrentPersona] = useState(selectedPersona);
     const [isChanging, setIsChanging] = useState(false);
     const [hoveredPersona, setHoveredPersona] = useState(null);
     const [showPreview, setShowPreview] = useState(false);
+
+    // Import name transformation hook
+    const { getDisplayName, fullName } = useNameTransformation();
 
     // Enhanced Agent Dr Girlfriend persona modes
     const personas = [
@@ -159,7 +164,7 @@ const PersonaSelector = ({ selectedPersona = 'GIRLFRIEND', onSelect, showDetails
         <div className="persona-selector">
             <div className="persona-header">
                 <h2 className="persona-title">
-                    🎭 Choose Your Agent Dr Girlfriend Mode
+                    🎭 Choose Your {fullName} Mode
                 </h2>
                 <p className="persona-subtitle">
                     Each mode brings out different aspects of my personality to match your needs

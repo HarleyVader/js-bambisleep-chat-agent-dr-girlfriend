@@ -1,14 +1,31 @@
 // Header.js - Enhanced header with fixed navbar and hover descriptions
 // Following copilot-instructions.md: Accessible navigation design
 
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+
+import useNameTransformation from '../../hooks/useNameTransformation.js';
+import useBambisleepAlerts from '../../hooks/useBambisleepAlerts.js';
 
 const Header = ({ currentView, setCurrentView }) => {
     const [hoveredItem, setHoveredItem] = useState(null);
     const [hoverTimer, setHoverTimer] = useState(null);
 
+    // Import name transformation hook
+    const { getDisplayName, fullName } = useNameTransformation();
+
+    // Import bambisleep alerts hook
+    const {
+        isAlertVisible,
+        currentAlert,
+        alertQueue,
+        connectionStatus,
+        ALERT_TYPES,
+        dismissAlert,
+        triggerTestAlert
+    } = useBambisleepAlerts();
+
     const navigationItems = [
-        { id: 'chat', label: 'Chat', icon: '💬', description: 'Talk with Agent Dr Girlfriend - Share thoughts, feelings, and have meaningful conversations' },
+        { id: 'chat', label: 'Chat', icon: '💬', description: `Talk with ${fullName} - Share thoughts, feelings, and have meaningful conversations` },
         { id: 'journal', label: 'Journal', icon: '📝', description: 'Dream Journal - Write your thoughts, dreams, and private reflections' },
         { id: 'creative', label: 'Creative', icon: '🎨', description: 'Creative Studio - Collaborate on stories, art, and creative projects together' },
         { id: 'relationship', label: 'Journey', icon: '💖', description: 'Our Journey - Track relationship progress, milestones, and emotional growth' },
@@ -50,6 +67,26 @@ const Header = ({ currentView, setCurrentView }) => {
     const handleNavigation = (viewId) => {
         setCurrentView(viewId);
         handleMouseLeave(); // Hide any visible descriptions
+    };
+
+    // Format timestamp for alerts
+    const formatAlertTime = (timestamp) => {
+        return new Date(timestamp).toLocaleTimeString('en-US', {
+            hour12: false,
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    // Get alert icon based on type
+    const getAlertIcon = (type) => {
+        switch (type) {
+            case ALERT_TYPES.UPDATE: return '📡';
+            case ALERT_TYPES.WARNING: return '⚠️';
+            case ALERT_TYPES.ALERT: return '🚨';
+            case ALERT_TYPES.INFO: return 'ℹ️';
+            default: return 'ℹ️';
+        }
     };
 
     return (
@@ -103,12 +140,60 @@ const Header = ({ currentView, setCurrentView }) => {
                     <div className="navbar-status">
                         <div className="status-indicator online"></div>
                         <span className="status-text">Online</span>
+
+                        {/* Alert Connection Status */}
+                        <div
+                            className={`alert-connection-status ${connectionStatus}`}
+                            title={`Bambisleep Prime: ${connectionStatus}`}
+                        ></div>
+
+                        {/* Alert Queue Indicator */}
+                        {alertQueue > 0 && (
+                            <div className="alert-queue-badge" title={`${alertQueue} alerts queued`}>
+                                {alertQueue}
+                            </div>
+                        )}
                     </div>
                 </div>
             </nav>
 
-            {/* Spacer to prevent content overlap */}
-            <div className="header-spacer"></div>
+            {/* Spacer with Alert System */}
+            <div className="header-spacer">
+                {/* Bambisleep Prime Alert */}
+                {currentAlert && (
+                    <div
+                        className={`bambisleep-alert alert-${currentAlert.type} ${isAlertVisible ? 'visible' : ''}`}
+                        role="alert"
+                        aria-live={currentAlert.priority === 'high' ? 'assertive' : 'polite'}
+                    >
+                        <div className="alert-content">
+                            <div className="alert-main">
+                                <div className="alert-icon" aria-hidden="true">
+                                    {getAlertIcon(currentAlert.type)}
+                                </div>
+                                <div className="alert-text">
+                                    <div className="alert-title">{currentAlert.title}</div>
+                                    {currentAlert.message && (
+                                        <div className="alert-message">{currentAlert.message}</div>
+                                    )}
+                                </div>
+                            </div>
+                            <div className="alert-actions">
+                                <div className="alert-timestamp">
+                                    {formatAlertTime(currentAlert.timestamp)}
+                                </div>
+                                <button
+                                    className="alert-dismiss"
+                                    onClick={dismissAlert}
+                                    aria-label="Dismiss alert"
+                                >
+                                    ✕
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </div>
         </header>
     );
 };
