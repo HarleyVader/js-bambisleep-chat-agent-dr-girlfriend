@@ -3,21 +3,25 @@
 
 import './styles/globals.css';
 import './styles/themes.css';
-import './styles/components.css';
 
 import React, { StrictMode, Suspense, lazy } from 'react';
 
 import { createRoot } from 'react-dom/client';
 import useNameTransformation from './hooks/useNameTransformation.js';
 
-// Lazy load components for performance optimization
-const ChatInterface = lazy(() => import('./components/chat/ChatInterface.js'));
-const JournalEditor = lazy(() => import('./components/journal/JournalEditor.js'));
-const CreativeStudio = lazy(() => import('./components/creative/CreativeStudio.js'));
-const RelationshipDashboard = lazy(() => import('./components/relationship/RelationshipDashboard.js'));
-const PersonaSelector = lazy(() => import('./components/ui/PersonaSelector.js'));
-const Header = lazy(() => import('./components/layout/Header.js'));
-const Sidebar = lazy(() => import('./components/layout/Sidebar.js'));
+// Lazy load components for performance optimization with better chunking
+const ChatInterface = lazy(() => import(/* webpackChunkName: "chat" */ './components/chat/ChatInterface.js'));
+const JournalEditor = lazy(() => import(/* webpackChunkName: "journal" */ './components/journal/JournalEditor.js'));
+const CreativeStudio = lazy(() => import(/* webpackChunkName: "creative" */ './components/creative/CreativeStudio.js'));
+const RelationshipDashboard = lazy(() => import(/* webpackChunkName: "relationship" */ './components/relationship/RelationshipDashboard.js'));
+const PersonaSelector = lazy(() => import(/* webpackChunkName: "ui" */ './components/ui/PersonaSelector.js'));
+const Header = lazy(() => import(/* webpackChunkName: "layout" */ './components/layout/Header.js'));
+const Sidebar = lazy(() => import(/* webpackChunkName: "layout" */ './components/layout/Sidebar.js'));
+
+// Dynamically load components CSS only when needed
+const loadComponentStyles = () => {
+    return import(/* webpackChunkName: "component-styles" */ './styles/components.css');
+};
 
 // Error Boundary for graceful error handling
 class ErrorBoundary extends React.Component {
@@ -99,6 +103,9 @@ const App = () => {
     React.useEffect(() => {
         const initializeApp = async () => {
             try {
+                // Load component styles dynamically
+                await loadComponentStyles();
+
                 // Add global error handler for uncaught JSON parsing errors
                 if (typeof window !== 'undefined') {
                     // Check if cleanup is needed from previous session

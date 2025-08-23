@@ -3,10 +3,8 @@
    Agent Dr Girlfriend - Terminal Interface
    ================================================ */
 
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+/* Optimized font loading - only load essential weights */
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Fira+Code:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Space+Mono:wght@400;700&display=swap");
 
 :root {
     /* === CYBER GOTH PALETTE 2030 === */

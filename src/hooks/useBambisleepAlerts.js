@@ -2,7 +2,8 @@
 // Following copilot-instructions.md: Service architecture for alert integration
 // Security: Uses Socket.IO instead of raw WebSockets for better security and authentication
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+
 import { io } from 'socket.io-client';
 
 const useBambisleepAlerts = () => {
