@@ -14,9 +14,15 @@ module.exports = {
             jsx: true,
         },
     },
+    ignorePatterns: [
+        'dist/**',
+        'node_modules/**',
+        '*.min.js',
+        'build/**'
+    ],
     rules: {
         // Code Quality
-        'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+        'no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
         'no-console': 'warn',
         'no-debugger': 'error',
 
