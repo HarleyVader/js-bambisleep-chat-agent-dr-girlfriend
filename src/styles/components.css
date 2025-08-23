@@ -4068,3 +4068,40 @@
         display: none;
     }
 }
+
+/* 🇦🇹 Austrian MCP Docking Button Styles */
+.mcp-docking-btn {
+    background: linear-gradient(45deg, #c8102e, #ffffff, #c8102e) !important;
+    background-size: 200% 200% !important;
+    animation: austrianFlag 3s ease-in-out infinite !important;
+    border-color: var(--neon-cyan) !important;
+    position: relative !important;
+}
+
+.mcp-docking-btn::before {
+    content: "🇦🇹";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    font-size: 12px;
+    background: var(--cyber-black);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--neon-cyan);
+}
+
+.mcp-docking-btn:hover {
+    background: linear-gradient(45deg, #c8102e, #ffffff, #c8102e) !important;
+    box-shadow: 0 0 1vw var(--neon-cyan), 0 0 2vw #c8102e !important;
+    text-shadow: 0 0 0.5vw var(--neon-cyan) !important;
+}
+
+@keyframes austrianFlag {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}

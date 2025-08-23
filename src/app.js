@@ -18,6 +18,9 @@ const PersonaSelector = lazy(() => import(/* webpackChunkName: "ui" */ './compon
 const Header = lazy(() => import(/* webpackChunkName: "layout" */ './components/layout/Header.js'));
 const Sidebar = lazy(() => import(/* webpackChunkName: "layout" */ './components/layout/Sidebar.js'));
 
+// 🇦🇹 MCP Docking System for bambisleep.chat integration
+const MCPDockingInterface = lazy(() => import(/* webpackChunkName: "mcp" */ './components/mcp/MCPDockingInterface.js'));
+
 // Dynamically load components CSS only when needed
 const loadComponentStyles = () => {
     return import(/* webpackChunkName: "component-styles" */ './styles/components.css');
@@ -221,6 +224,7 @@ const App = () => {
                         {currentView === 'creative' && <CreativeStudio />}
                         {currentView === 'relationship' && <RelationshipDashboard />}
                         {currentView === 'persona' && <PersonaSelector />}
+                        {currentView === 'mcp' && <MCPDockingInterface bambisleepConfig={{ id: fullName, pronouns: 'she/her' }} />}
                     </Suspense>
 
                 </main>

@@ -240,6 +240,14 @@ const Sidebar = ({ currentView, setCurrentView }) => {
                                 <span className="btn-icon">🎨</span>
                                 <span className="btn-text">Create Together</span>
                             </button>
+                            <button
+                                className="quick-action-btn mcp-docking-btn"
+                                onClick={() => setCurrentView('mcp')}
+                                title="🇦🇹 MCP Docking Bay - Connect to bambisleep.chat"
+                            >
+                                <span className="btn-icon">🛰️</span>
+                                <span className="btn-text">MCP Docking</span>
+                            </button>
                         </div>
                     </div>
 
