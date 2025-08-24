@@ -1,0 +1,395 @@
+/* ================================================
+   2030 NEON CYBER GOTH WAVE THEME
+   Agent Dr Girlfriend - Terminal Interface
+   ================================================ */
+
+/* Optimized font loading - only load essential weights */
+@import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Fira+Code:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Space+Mono:wght@400;700&display=swap");
+
+:root {
+    /* === CYBER GOTH PALETTE 2030 === */
+    --cyber-black: #0a0a0f;
+    --cyber-dark: #111118;
+    --cyber-darker: #1a1a2e;
+    --cyber-surface: #16213e;
+
+    /* Neon Colors */
+    --neon-pink: #ff0080;
+    --neon-cyan: #00ffff;
+    --neon-purple: #8a2be2;
+    --neon-green: #39ff14;
+    --neon-orange: #ff4500;
+    --neon-blue: #0080ff;
+
+    /* Glow Effects - VIEWPORT UNITS ONLY */
+    --pink-glow: 0 0 2vw #ff0080, 0 0 4vw #ff0080, 0 0 6vw #ff0080;
+    --cyan-glow: 0 0 2vw #00ffff, 0 0 4vw #00ffff, 0 0 6vw #00ffff;
+    --purple-glow: 0 0 2vw #8a2be2, 0 0 4vw #8a2be2, 0 0 6vw #8a2be2;
+    --green-glow: 0 0 2vw #39ff14, 0 0 4vw #39ff14, 0 0 6vw #39ff14;
+
+    /* BambiSleep Integration */
+    --primary-color: var(--neon-cyan);
+    --primary-alt: var(--cyber-surface);
+    --secondary-color: var(--neon-pink);
+    --secondary-alt: var(--neon-purple);
+    --tertiary-color: var(--neon-green);
+    --tertiary-alt: var(--neon-orange);
+    --button-color: var(--neon-pink);
+    --button-alt: var(--cyber-black);
+    --nav-color: var(--cyber-darker);
+    --nav-alt: var(--neon-cyan);
+    --transparent: rgba(26, 26, 46, 0.8);
+    --transparent-alt: rgba(0, 0, 0, 0);
+    --error: var(--neon-orange);
+    --error-bg: rgba(255, 69, 0, 0.1);
+
+    /* Terminal Typography */
+    --font-mono: 'Audiowide', 'Fira Code', 'JetBrains Mono', 'Space Mono', 'Courier New', monospace;
+    --font-cyber: 'Audiowide', 'JetBrains Mono', 'Fira Code', monospace;
+
+    /* Terminal Colors */
+    --terminal-bg: var(--cyber-black);
+    --terminal-text: var(--neon-cyan);
+    --terminal-cursor: var(--neon-pink);
+    --terminal-selection: rgba(0, 255, 255, 0.3);
+
+    /* Cyber UI Elements */
+    --accent-color: var(--neon-pink);
+    --background-color: var(--cyber-black);
+    --text-color: var(--neon-cyan);
+    --header-background: var(--cyber-darker);
+    --sidebar-background: var(--cyber-dark);
+    --border-color: var(--neon-cyan);
+
+    /* Responsive Cyber Sizing - VIEWPORT UNITS ONLY */
+    --spacing-xs: 0.4vh;
+    --spacing-sm: 0.8vh;
+    --spacing-md: 1.2vh;
+    --spacing-lg: 2vh;
+    --spacing-xl: 3vh;
+    --spacing-2xl: 4vh;
+
+    --size-xs: 0.3vw;
+    --size-sm: 0.6vw;
+    --size-md: 1vw;
+    --size-lg: 1.5vw;
+    --size-xl: 2vw;
+    --size-2xl: 3vw;
+
+    /* Terminal Border System - VIEWPORT UNITS ONLY */
+    --border-thin: 0.1vw;
+    --border-normal: 0.2vw;
+    --border-thick: 0.3vw;
+    --border-glow: 0.1vw;
+
+    /* Cyber Radius - VIEWPORT UNITS ONLY */
+    --radius-xs: 0.2vw;
+    --radius-sm: 0.4vw;
+    --radius-md: 0.6vw;
+    --radius-lg: 0.8vw;
+    --radius-xl: 1.2vw;
+    --radius-terminal: 0vw;
+    /* Sharp terminal edges */
+
+    /* Neon Shadows & Glows - VIEWPORT UNITS ONLY */
+    --shadow-sm: 0 0 2vw #00ffff, 0 0 4vw #00ffff, 0 0 6vw #00ffff;
+    --shadow-base: 0 0 2vw #ff0080, 0 0 4vw #ff0080, 0 0 6vw #ff0080;
+    --shadow-md: 0 0 2vw #8a2be2, 0 0 4vw #8a2be2, 0 0 6vw #8a2be2;
+    --shadow-lg: 0 0 2vw #39ff14, 0 0 4vw #39ff14, 0 0 6vw #39ff14;
+    --shadow-xl: 0 0 3vw #ff0080, 0 0 6vw #00ffff, 0 0 9vw #8a2be2;
+
+    /* Terminal Font Sizes - VIEWPORT UNITS ONLY */
+    --font-xs: 0.7vw;
+    --font-sm: 0.85vw;
+    --font-base: 1vw;
+    --font-lg: 1.125vw;
+    --font-xl: 1.25vw;
+    --font-2xl: 1.5vw;
+    --font-3xl: 2vw;
+    --font-terminal: 0.9vw;
+
+    /* Cyber Gaps - VIEWPORT UNITS ONLY */
+    --gap-xs: 0.25vw;
+    --gap-sm: 0.5vw;
+    --gap-md: 0.75vw;
+    --gap-lg: 1vw;
+    --gap-xl: 1.5vw;
+
+    /* Animation Timings */
+    --cyber-fast: 0.15s;
+    --cyber-normal: 0.3s;
+    --cyber-slow: 0.6s;
+    --glow-pulse: 2s;
+}
+
+/* === CYBER GOTH THEME VARIANTS === */
+
+.light-theme {
+    /* Terminal Green on Black (Retro) */
+    --primary-color: var(--neon-green);
+    --primary-alt: var(--cyber-surface);
+    --secondary-color: var(--neon-orange);
+    --secondary-alt: var(--neon-blue);
+    --tertiary-color: var(--neon-cyan);
+    --tertiary-alt: var(--neon-purple);
+    --button-color: var(--neon-green);
+    --button-alt: var(--cyber-black);
+    --nav-color: var(--cyber-dark);
+    --nav-alt: var(--neon-green);
+    --transparent: rgba(17, 17, 24, 0.9);
+    --transparent-alt: rgba(0, 0, 0, 0);
+    --error: var(--neon-orange);
+    --error-bg: rgba(255, 69, 0, 0.1);
+
+    --accent-color: var(--neon-green);
+    --background-color: var(--cyber-black);
+    --text-color: var(--neon-green);
+    --header-background: var(--cyber-darker);
+    --sidebar-background: var(--cyber-dark);
+    --border-color: var(--neon-green);
+}
+
+.dark-theme {
+    /* Full Neon Cyber Mode */
+    --primary-color: var(--neon-pink);
+    --primary-alt: var(--cyber-surface);
+    --secondary-color: var(--neon-cyan);
+    --secondary-alt: var(--neon-purple);
+    --tertiary-color: var(--neon-orange);
+    --tertiary-alt: var(--neon-blue);
+    --button-color: var(--neon-pink);
+    --button-alt: var(--cyber-black);
+    --nav-color: var(--cyber-darker);
+    --nav-alt: var(--neon-cyan);
+    --transparent: rgba(10, 10, 15, 0.8);
+    --transparent-alt: rgba(0, 0, 0, 0);
+    --error: var(--neon-orange);
+    --error-bg: rgba(255, 69, 0, 0.15);
+
+    --accent-color: var(--neon-pink);
+    --background-color: var(--cyber-black);
+    --text-color: var(--neon-cyan);
+    --header-background: var(--cyber-darker);
+    --sidebar-background: var(--cyber-dark);
+    --border-color: var(--neon-pink);
+}
+
+/* === CYBER TERMINAL COMPONENTS === */
+
+* {
+    font-family: var(--font-cyber);
+}
+
+body {
+    background: var(--terminal-bg);
+    color: var(--terminal-text);
+    font-family: var(--font-cyber);
+    font-size: var(--font-terminal);
+    line-height: 1.4;
+    overflow-x: hidden;
+}
+
+.button {
+    background: transparent;
+    color: var(--button-color);
+    border: var(--border-normal) solid var(--button-color);
+    border-radius: var(--radius-terminal);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-cyber);
+    font-size: var(--font-sm);
+    font-weight: 500;
+    letter-spacing: 0.05vw;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all var(--cyber-fast) ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left var(--cyber-normal) ease;
+}
+
+.button:hover {
+    background: var(--button-color);
+    color: var(--cyber-black);
+    box-shadow: var(--shadow-base);
+    text-shadow: none;
+}
+
+.button:hover::before {
+    left: 100%;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.header {
+    background: var(--header-background);
+    border-bottom: var(--border-normal) solid var(--border-color);
+    padding: var(--spacing-md);
+    position: relative;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: var(--border-glow);
+    background: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.sidebar {
+    background: var(--sidebar-background);
+    border-right: var(--border-normal) solid var(--border-color);
+    padding: var(--spacing-md);
+    position: relative;
+}
+
+.sidebar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: var(--border-glow);
+    height: 100%;
+    background: var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+
+.message-bubble {
+    background: rgba(26, 26, 46, 0.6);
+    border: var(--border-thin) solid var(--secondary-color);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin: var(--spacing-xs) 0;
+    max-width: 70vw;
+    font-family: var(--font-cyber);
+    position: relative;
+    animation: terminalFlicker 0.1s ease-in;
+    font-size: var(--font-base);
+}
+
+.message-bubble::before {
+    content: '> ';
+    color: var(--secondary-color);
+    font-weight: bold;
+}
+
+.message-bubble.user {
+    background: rgba(255, 0, 128, 0.1);
+    border-color: var(--neon-pink);
+    margin-left: auto;
+    text-align: right;
+}
+
+.message-bubble.user::before {
+    content: '';
+}
+
+.message-bubble.user::after {
+    content: ' <';
+    color: var(--neon-pink);
+    font-weight: bold;
+}
+
+.mood-indicator {
+    width: 100%;
+    height: var(--spacing-sm);
+    background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan), var(--neon-green));
+    border-radius: var(--radius-terminal);
+    position: relative;
+    overflow: hidden;
+}
+
+.mood-indicator::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent 40%, rgba(255, 255, 255, 0.3) 50%, transparent 60%);
+    animation: scanline 2s infinite linear;
+}
+
+/* === CYBER ANIMATIONS === */
+
+@keyframes terminalFlicker {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.98;
+    }
+}
+
+@keyframes scanline {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(200%);
+    }
+}
+
+@keyframes cyberpulse {
+
+    0%,
+    100% {
+        text-shadow: 0 0 0.5vw currentColor;
+        transform: scale(1);
+    }
+
+    50% {
+        text-shadow: 0 0 2vw currentColor, 0 0 3vw currentColor;
+        transform: scale(1.02);
+    }
+}
+
+@keyframes glowPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0.5vw var(--border-color);
+    }
+
+    50% {
+        box-shadow: 0 0 2vw var(--border-color), 0 0 3vw var(--border-color);
+    }
+}
+
+/* === TERMINAL CURSOR EFFECT === */
+.typing-cursor::after {
+    content: '█';
+    color: var(--terminal-cursor);
+    animation: blink 1s infinite step-end;
+}
+
+@keyframes blink {
+
+    0%,
+    50% {
+        opacity: 1;
+    }
+
+    51%,
+    100% {
+        opacity: 0;
+    }
+}

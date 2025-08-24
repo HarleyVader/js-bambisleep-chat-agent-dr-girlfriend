@@ -1,0 +1,301 @@
+/* ================================================
+   2030 NEON CYBER GOTH WAVE - GLOBAL STYLES
+   Agent Dr Girlfriend Terminal Interface
+   ================================================ */
+
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 1vw;
+    scroll-behavior: smooth;
+    overflow: hidden;
+}
+
+body {
+    font-family: 'Audiowide', 'Fira Code', 'JetBrains Mono', 'Space Mono', monospace;
+    background: #0a0a0f;
+    color: #00ffff;
+    line-height: 1.6;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Main app container with flexbox row layout */
+.app-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.main-content {
+    flex: 1;
+    height: 100vh;
+    background: #0a0a0f;
+    position: relative;
+    overflow: hidden;
+    padding-top: 6vh;
+    /* Space for fixed header */
+}
+
+/* Cyber terminal scanlines effect */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: repeating-linear-gradient(0deg,
+            transparent,
+            transparent 0.2vh,
+            rgba(0, 255, 255, 0.03) 0.2vh,
+            rgba(0, 255, 255, 0.03) 0.4vh);
+    pointer-events: none;
+    z-index: 1000;
+    animation: scanlines 0.1s linear infinite;
+}
+
+@keyframes scanlines {
+    0% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0.4vh);
+    }
+}
+
+/* Custom cyber scrollbar */
+::-webkit-scrollbar {
+    width: 0.5vw;
+}
+
+::-webkit-scrollbar-track {
+    background: #111118;
+    border-left: 0.1vw solid #ff0080;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #ff0080, #8a2be2);
+    border-radius: 0;
+    box-shadow: 0 0 1vw #ff0080;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #00ffff, #ff0080);
+    box-shadow: 0 0 1.5vw #00ffff;
+}
+
+/* Selection styling */
+::selection {
+    background: rgba(255, 0, 128, 0.3);
+    color: #00ffff;
+    text-shadow: 0 0 0.5vw #00ffff;
+}
+
+/* Focus indicators */
+*:focus {
+    outline: 0.2vw solid #00ffff;
+    outline-offset: 0.2vw;
+    box-shadow: 0 0 1vw rgba(0, 255, 255, 0.5);
+}
+
+/* Base cyber text effects */
+.cyber-text-pink {
+    color: #ff0080;
+    text-shadow: 0 0 1vw #ff0080;
+}
+
+.cyber-text-cyan {
+    color: #00ffff;
+    text-shadow: 0 0 1vw #00ffff;
+}
+
+.cyber-text-green {
+    color: #39ff14;
+    text-shadow: 0 0 1vw #39ff14;
+}
+
+.cyber-text-purple {
+    color: #8a2be2;
+    text-shadow: 0 0 1vw #8a2be2;
+}
+
+/* Base glitch effect */
+.cyber-glitch {
+    animation: glitch 2s infinite;
+}
+
+@keyframes glitch {
+
+    0%,
+    90%,
+    100% {
+        transform: translate3d(0, 0, 0);
+    }
+
+    10% {
+        transform: translate3d(-0.1vw, 0, 0);
+    }
+
+    20% {
+        transform: translate3d(0.1vw, 0, 0);
+    }
+
+    30% {
+        transform: translate3d(-0.1vw, 0, 0);
+    }
+
+    40% {
+        transform: translate3d(0.1vw, 0, 0);
+    }
+
+    50% {
+        transform: translate3d(-0.1vw, 0, 0);
+    }
+
+    60% {
+        transform: translate3d(0.1vw, 0, 0);
+    }
+
+    70% {
+        transform: translate3d(-0.1vw, 0, 0);
+    }
+
+    80% {
+        transform: translate3d(0.1vw, 0, 0);
+    }
+}
+
+/* Accessibility */
+.skip-link {
+    position: absolute;
+    top: -4vh;
+    left: 0.6vw;
+    background: #ff0080;
+    color: #0a0a0f;
+    padding: 0.8vh 1vw;
+    text-decoration: none;
+    font-weight: bold;
+    z-index: 9999;
+    transition: top 0.3s;
+}
+
+.skip-link:focus {
+    top: 0.6vh;
+}
+
+/* Remove default styles that might interfere */
+ul,
+ol {
+    list-style: none;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button {
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    cursor: pointer;
+}
+
+input,
+textarea {
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+}
+
+/* ================================================
+   ACCESSIBILITY & SCREEN READER STYLES
+   ================================================ */
+
+/* Screen reader only content - visually hidden but accessible */
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
+/* Show screen reader content when focused (for skip links) */
+.sr-only:focus {
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem 1rem !important;
+    margin: 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    background: #ff0080 !important;
+    color: #0a0a0f !important;
+    border: 2px solid #00ffff !important;
+    border-radius: 0.5rem !important;
+    z-index: 9999 !important;
+}
+
+/* Screen reader enabled state - show announcements visually */
+.screen-reader-enabled .sr-announcements {
+    position: relative !important;
+    width: auto !important;
+    height: auto !important;
+    padding: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+    overflow: visible !important;
+    clip: auto !important;
+    white-space: normal !important;
+    border: 1px solid #00ffff !important;
+    background: rgba(0, 255, 255, 0.1) !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.8rem !important;
+    text-align: center !important;
+}
+
+/* Screen reader toggle button */
+.screen-reader-toggle {
+    background: rgba(0, 255, 255, 0.1) !important;
+    border: 1px solid #00ffff !important;
+    border-radius: 50% !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: all 0.3s ease !important;
+    margin: 0.5rem auto !important;
+}
+
+.screen-reader-toggle:hover {
+    background: rgba(0, 255, 255, 0.2) !important;
+    box-shadow: 0 0 1rem rgba(0, 255, 255, 0.4) !important;
+}
+
+.screen-reader-toggle:focus {
+    outline: 2px solid #ff0080 !important;
+    outline-offset: 2px !important;
+}
+
+.screen-reader-toggle.active {
+    background: rgba(255, 0, 128, 0.2) !important;
+    border-color: #ff0080 !important;
+}
