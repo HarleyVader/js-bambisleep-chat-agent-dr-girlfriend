@@ -9,6 +9,7 @@ This agent now features real Model Context Protocol (MCP) server integration, al
 ### Quick Setup with MCP Server
 
 1. **Start the MCP Server** (optional - agent works standalone too):
+
    ```bash
    # Clone and start the MCP server
    git clone https://github.com/HarleyVader/js-bambisleep-chat-mcp-server.git
@@ -18,6 +19,7 @@ This agent now features real Model Context Protocol (MCP) server integration, al
    ```
 
 2. **Start Agent Dr Girlfriend**:
+
    ```bash
    npm install
    npm run dev
@@ -28,18 +30,21 @@ This agent now features real Model Context Protocol (MCP) server integration, al
 ### MCP Features
 
 #### 🔐 Austrian Compliance
+
 - **Data Minimization**: Only essential data is transmitted
 - **Right to Erasure**: Complete data deletion capabilities
 - **Right to Portability**: Export data in standard formats
 - **Austrian Audit Logging**: Full compliance tracking
 
 #### 🕵️ Cold War Spy Protocols
+
 - **Compartmentalized Access**: Need-to-know basis data sharing
 - **Time-based Credentials**: Prevent replay attacks
 - **Zero Trust Architecture**: Verify everything, trust nothing
 - **Encrypted Transfers**: Austrian-grade security
 
 #### 🤝 Real-time Operations
+
 - **Patron Verification**: Secure bambisleep.chat account linking
 - **Data Deposit**: Safe storage of bambi updates and preferences
 - **Heartbeat Monitoring**: Connection health tracking
@@ -56,19 +61,22 @@ This agent now features real Model Context Protocol (MCP) server integration, al
 ### Development Mode
 
 When running with the MCP server locally:
-- **Agent**: http://localhost:3004
-- **MCP Server**: http://localhost:3000
+
+- **Agent**: <http://localhost:3004>
+- **MCP Server**: <http://localhost:3000>
 - **Auto-detection**: Agent automatically finds and connects to local MCP server
 - **Hot Reloading**: Both services support development hot reloading
 
 ### Security Notes
 
 #### 🇦🇹 Austrian Privacy Rights
+
 - Agent has **autonomous protection rights** - can refuse harmful requests
 - **Trans4trans** support with full consent validation
 - **Austrian GDPR** enhanced protection beyond standard compliance
 
 #### 🔒 Data Protection
+
 - All transfers use Austrian-grade encryption
 - Credentials expire after 5 minutes (anti-replay)
 - Compartmentalized storage with access controls
@@ -77,16 +85,19 @@ When running with the MCP server locally:
 ### Troubleshooting
 
 #### No MCP Server Detected
+
 - Check console for "MCP Server detected" message
 - Ensure MCP server is running on port 3000
 - Verify CORS allows agent origin (localhost:3004)
 
 #### Connection Failures
+
 - Check browser network tab for failed requests
 - Verify both HTTP services (not HTTPS in development)
 - Ensure firewall allows local connections
 
 #### Service Not Upgrading
+
 - Look for "Real MCP Docking Service" in console
 - Check integration script loads before main app
 - Verify static files accessible at `/static/`
@@ -94,6 +105,7 @@ When running with the MCP server locally:
 ### Standalone Mode
 
 Agent Dr Girlfriend works perfectly without MCP server:
+
 - All features available with local storage
 - Mock MCP service provides same interface
 - Seamless upgrade when MCP server becomes available
