@@ -7,59 +7,79 @@
 @import url("https://fonts.googleapis.com/css2?family=Audiowide&family=Fira+Code:wght@400;600&family=JetBrains+Mono:wght@400;600&family=Space+Mono:wght@400;700&display=swap");
 
 :root {
-    /* === CYBER GOTH PALETTE 2030 === */
-    --cyber-black: #0a0a0f;
-    --cyber-dark: #111118;
-    --cyber-darker: #1a1a2e;
-    --cyber-surface: #16213e;
+    /* === FICKDICHSELBER.COM NEON CYBER GOTH WAVE PALETTE === */
+    --primary-color: #0c2a2ac9;
+    --primary-alt: #15aab5ec;
+    --secondary-color: #40002f;
+    --secondary-alt: #cc0174;
+    --tertiary-color: #cc0174;
+    --tertiary-alt: #01c69eae;
+    --button-color: #df0471;
+    --button-alt: #110000;
+    --nav-color: #0a2626;
+    --nav-alt: #17dbd8;
+    --transparent: #124141ce;
+    --transparent-alt: #ffffff00;
+    --error: #ff3333;
+    --error-bg: rgba(255, 51, 51, 0.1);
 
-    /* Neon Colors */
-    --neon-pink: #ff0080;
-    --neon-cyan: #00ffff;
-    --neon-purple: #8a2be2;
-    --neon-green: #39ff14;
-    --neon-orange: #ff4500;
-    --neon-blue: #0080ff;
+    /* Derived colors for enhanced cyber aesthetics */
+    --accent-color: var(--button-color);
+    --border-color: var(--tertiary-color);
+    --secondary-text-color: var(--primary-alt);
+    --text-color: var(--primary-alt);
+    --bg-color-secondary: var(--nav-color);
+
+    /* RGB values for alpha compositing */
+    --primary-color-rgb: 12, 42, 42;
+    --secondary-color-rgb: 64, 0, 47;
+    --tertiary-color-rgb: 204, 1, 116;
+    --nav-color-rgb: 10, 38, 38;
+    --button-color-rgb: 223, 4, 113;
+
+    /* Enhanced transparency effects */
+    --transparent-alt: rgba(var(--primary-color-rgb), 0.2);
+
+    /* Font rendering optimizations */
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    /* Legacy cyber colors for compatibility */
+    --cyber-black: var(--button-alt);
+    --cyber-dark: var(--nav-color);
+    --cyber-darker: var(--secondary-color);
+    --cyber-surface: var(--primary-color);
+
+    /* Neon Colors - Updated to match fickdichselber.com theme */
+    --neon-pink: var(--tertiary-color);
+    --neon-cyan: var(--nav-alt);
+    --neon-purple: var(--secondary-color);
+    --neon-green: var(--tertiary-alt);
+    --neon-orange: var(--button-color);
+    --neon-blue: var(--primary-alt);
 
     /* Glow Effects - VIEWPORT UNITS ONLY */
-    --pink-glow: 0 0 2vw #ff0080, 0 0 4vw #ff0080, 0 0 6vw #ff0080;
-    --cyan-glow: 0 0 2vw #00ffff, 0 0 4vw #00ffff, 0 0 6vw #00ffff;
-    --purple-glow: 0 0 2vw #8a2be2, 0 0 4vw #8a2be2, 0 0 6vw #8a2be2;
-    --green-glow: 0 0 2vw #39ff14, 0 0 4vw #39ff14, 0 0 6vw #39ff14;
+    --pink-glow: 0 0 2vw var(--tertiary-color), 0 0 4vw var(--tertiary-color), 0 0 6vw var(--tertiary-color);
+    --cyan-glow: 0 0 2vw var(--nav-alt), 0 0 4vw var(--nav-alt), 0 0 6vw var(--nav-alt);
+    --purple-glow: 0 0 2vw var(--secondary-color), 0 0 4vw var(--secondary-color), 0 0 6vw var(--secondary-color);
+    --green-glow: 0 0 2vw var(--tertiary-alt), 0 0 4vw var(--tertiary-alt), 0 0 6vw var(--tertiary-alt);
 
-    /* BambiSleep Integration */
-    --primary-color: var(--neon-cyan);
-    --primary-alt: var(--cyber-surface);
-    --secondary-color: var(--neon-pink);
-    --secondary-alt: var(--neon-purple);
-    --tertiary-color: var(--neon-green);
-    --tertiary-alt: var(--neon-orange);
-    --button-color: var(--neon-pink);
-    --button-alt: var(--cyber-black);
-    --nav-color: var(--cyber-darker);
-    --nav-alt: var(--neon-cyan);
-    --transparent: rgba(26, 26, 46, 0.8);
-    --transparent-alt: rgba(0, 0, 0, 0);
-    --error: var(--neon-orange);
-    --error-bg: rgba(255, 69, 0, 0.1);
-
-    /* Terminal Typography */
+    /* Terminal Typography with fickdichselber.com styling */
     --font-mono: 'Audiowide', 'Fira Code', 'JetBrains Mono', 'Space Mono', 'Courier New', monospace;
     --font-cyber: 'Audiowide', 'JetBrains Mono', 'Fira Code', monospace;
 
-    /* Terminal Colors */
-    --terminal-bg: var(--cyber-black);
-    --terminal-text: var(--neon-cyan);
-    --terminal-cursor: var(--neon-pink);
-    --terminal-selection: rgba(0, 255, 255, 0.3);
+    /* Terminal Colors - Updated for fickdichselber.com */
+    --terminal-bg: var(--button-alt);
+    --terminal-text: var(--primary-alt);
+    --terminal-cursor: var(--tertiary-color);
+    --terminal-selection: rgba(var(--primary-color-rgb), 0.3);
 
-    /* Cyber UI Elements */
-    --accent-color: var(--neon-pink);
-    --background-color: var(--cyber-black);
-    --text-color: var(--neon-cyan);
-    --header-background: var(--cyber-darker);
-    --sidebar-background: var(--cyber-dark);
-    --border-color: var(--neon-cyan);
+    /* Cyber UI Elements - fickdichselber.com theme */
+    --background-color: var(--button-alt);
+    --header-background: var(--nav-color);
+    --sidebar-background: var(--primary-color);
 
     /* Responsive Cyber Sizing - VIEWPORT UNITS ONLY */
     --spacing-xs: 0.4vh;

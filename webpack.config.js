@@ -3,6 +3,7 @@
 
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import CompressionPlugin from 'compression-webpack-plugin';
+import CopyPlugin from 'copy-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
@@ -30,7 +31,7 @@ export default {
     path: path.resolve(__dirname, 'dist'),
     filename: isProduction ? '[name].[contenthash].js' : '[name].js',
     clean: true,
-    publicPath: '/',
+    publicPath: '/agent/dr-girlfriend/',
   },
 
   resolve: {
@@ -107,6 +108,19 @@ export default {
         OLLAMA_URL: process.env.OLLAMA_URL,
         OLLAMA_MODEL: process.env.OLLAMA_MODEL,
       }),
+    }),
+
+    // Copy static assets from public folder
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'public',
+          to: '.',
+          globOptions: {
+            ignore: ['**/index.html'], // Don't copy index.html as webpack handles it
+          },
+        },
+      ],
     }),
 
     new HtmlWebpackPlugin({
@@ -233,11 +247,31 @@ export default {
     static: {
       directory: path.join(__dirname, 'public'),
     },
-    port: 3004,
+    port: 3000, // Changed from 6969 to avoid conflict with server
     open: true,
     hot: true,
     historyApiFallback: true,
     compress: true,
+    proxy: [
+      {
+        context: ['/api'],
+        target: 'http://localhost:6969',
+        changeOrigin: true,
+        secure: false
+      },
+      {
+        context: ['/static'],
+        target: 'http://localhost:6969',
+        changeOrigin: true,
+        secure: false
+      },
+      {
+        context: ['/auth'],
+        target: 'http://localhost:6969',
+        changeOrigin: true,
+        secure: false
+      }
+    ],
     client: {
       overlay: {
         errors: true,

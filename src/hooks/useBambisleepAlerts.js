@@ -36,10 +36,24 @@ const useBambisleepAlerts = () => {
   // Connect to bambisleep prime using Socket.IO (secure)
   const connectSocketIO = useCallback(() => {
     const isDevMode = process.env.NODE_ENV === 'development' || window.location.hostname === 'localhost';
-    const serverUrl = process.env.REACT_APP_BAMBISLEEP_SOCKET_URL || 'http://localhost:3001';
 
-    // If in dev mode and no custom URL is set, use mock mode
-    if (isDevMode && !process.env.REACT_APP_BAMBISLEEP_SOCKET_URL) {
+    // Dynamic server URL detection
+    let serverUrl;
+    if (process.env.REACT_APP_BAMBISLEEP_SOCKET_URL) {
+      // Use explicit environment variable if set
+      serverUrl = process.env.REACT_APP_BAMBISLEEP_SOCKET_URL;
+    } else if (isDevMode) {
+      // Development mode - try current origin first, fallback to localhost:6969
+      serverUrl = window.location.hostname === 'localhost' ? 'http://localhost:6969' : window.location.origin;
+    } else {
+      // Production mode - use current origin (bambisleep.chat)
+      serverUrl = window.location.origin;
+    }
+
+    console.log(`🔌 Attempting Socket.IO connection to: ${serverUrl}`);
+
+    // If in dev mode and no custom URL is set, and we're on localhost without server, use mock mode
+    if (isDevMode && window.location.hostname === 'localhost' && !process.env.REACT_APP_BAMBISLEEP_SOCKET_URL) {
       setIsDevelopmentMode(true);
       setConnectionStatus('mock');
       console.log('🔧 Development mode: Using mock alert system (no Socket.IO server required)');

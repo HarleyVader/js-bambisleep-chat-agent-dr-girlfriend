@@ -31,18 +31,32 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
   useEffect(() => {
     const initializeAgentSecurity = async () => {
       try {
-        if (bambisleepConfig.id) {
+        // Only initialize if we have a valid config with ID
+        if (!bambisleepConfig?.id) {
+          console.log('🔧 Skipping MCP initialization - no bambisleep config provided');
+          return;
+        }
+
+        // Debug: Check if the service and method exist
+        console.log('🔍 MCP Docking Service:', mcpDockingService);
+        console.log('🔍 initializeStorageLock method:', typeof mcpDockingService?.initializeStorageLock);
+        
+        if (mcpDockingService && typeof mcpDockingService.initializeStorageLock === 'function') {
           await mcpDockingService.initializeStorageLock(bambisleepConfig);
           console.log('🔒 Agentin Dr Girlfriend Sicherheit initialisiert');
+        } else {
+          console.warn('⚠️ mcpDockingService.initializeStorageLock not available, skipping initialization');
+          console.warn('Service object keys:', mcpDockingService ? Object.keys(mcpDockingService) : 'service is null/undefined');
         }
       } catch (error) {
         console.error('❌ Agent security initialization failed:', error);
-        setError(`Security initialization failed: ${error.message}`);
+        // Don't set error state for optional initialization
+        console.log('🔧 Continuing without MCP initialization');
       }
     };
 
     initializeAgentSecurity();
-  }, [bambisleepConfig.id]);
+  }, [bambisleepConfig?.id]);
 
   // 🤝 Establish MCP connection
   const establishConnection = useCallback(async (serverConfig) => {
