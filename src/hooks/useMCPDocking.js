@@ -40,7 +40,7 @@ export const useMCPDocking = (bambisleepConfig = {}) => {
         // Debug: Check if the service and method exist
         console.log('🔍 MCP Docking Service:', mcpDockingService);
         console.log('🔍 initializeStorageLock method:', typeof mcpDockingService?.initializeStorageLock);
-        
+
         if (mcpDockingService && typeof mcpDockingService.initializeStorageLock === 'function') {
           await mcpDockingService.initializeStorageLock(bambisleepConfig);
           console.log('🔒 Agentin Dr Girlfriend Sicherheit initialisiert');
